@@ -1,0 +1,194 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { Download, Users } from "lucide-react";
+
+interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  avatar_url: string | null;
+  cv_url: string | null;
+  is_founder: boolean;
+  display_order: number;
+}
+
+interface AboutProps {
+  founders: TeamMember[];
+  vision: {
+    title: string;
+    content: string;
+  };
+}
+
+export function About({ founders, vision }: AboutProps) {
+  // Sort founders and pick the first two for the layout
+  const displayFounders = [...founders]
+    .sort((a, b) => a.display_order - b.display_order)
+    .slice(0, 2);
+
+  const leftFounder = displayFounders[0];
+  const rightFounder = displayFounders[1];
+
+  return (
+    <section id="about" className="relative py-32 bg-[#0F172A] overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-400/10 blur-[120px] rounded-full" />
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Section Header */}
+        <div className="text-center mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-semibold mb-6"
+          >
+            <Users className="w-4 h-4" />
+            <span>The Team</span>
+          </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight"
+          >
+            Meet The <span className="text-blue-500">Founders</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto"
+          >
+            The people behind H&M Studio.
+          </motion.p>
+        </div>
+
+        {/* Layout Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+          {/* Left Founder */}
+          <div className="order-2 lg:order-1">
+            <FounderCard founder={leftFounder} index={0} />
+          </div>
+
+          {/* Center Vision Content */}
+          <div className="order-1 lg:order-2">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative p-8 md:p-12 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl shadow-2xl overflow-hidden group"
+            >
+              {/* Inner Glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              
+              <div className="relative z-10 text-center">
+                <div className="inline-block px-4 py-1.5 rounded-full bg-blue-500/5 border border-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-widest mb-8">
+                  About H&M Studio
+                </div>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 leading-tight">
+                  {vision.title}
+                </h3>
+                <div className="h-px w-20 bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto mb-8" />
+                <p className="text-slate-400 text-lg leading-relaxed">
+                  {vision.content}
+                </p>
+
+                {/* Decorative Stats Replacement (Mini features) */}
+                <div className="mt-12 grid grid-cols-2 gap-4">
+                  {[
+                    { label: "Innovation", icon: "✨" },
+                    { label: "Quality", icon: "💎" },
+                    { label: "Strategy", icon: "🎯" },
+                    { label: "Execution", icon: "⚡" },
+                  ].map((item, i) => (
+                    <div key={i} className="p-4 rounded-2xl bg-white/5 border border-white/10 text-white/80 text-sm font-medium">
+                      <span className="mr-2">{item.icon}</span>
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Founder */}
+          <div className="order-3">
+            <FounderCard founder={rightFounder} index={1} />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FounderCard({ founder, index }: { founder?: TeamMember; index: number }) {
+  if (!founder) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: index * 0.2 }}
+      className="group relative"
+    >
+      <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.03] backdrop-blur-md transition-all duration-500 group-hover:border-blue-500/30 group-hover:shadow-[0_0_50px_rgba(59,130,246,0.1)]">
+        {/* Image Container */}
+        <div className="relative aspect-[4/5] overflow-hidden">
+          {founder.avatar_url ? (
+            <img
+              src={founder.avatar_url}
+              alt={founder.name}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+          ) : (
+            <div className="w-full h-full bg-slate-800 flex items-center justify-center">
+              <span className="text-6xl font-bold text-white/10">
+                {founder.name.split(' ').map(n => n[0]).join('')}
+              </span>
+            </div>
+          )}
+          
+          {/* Image Overlay Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent opacity-60" />
+          
+          {/* Role Badge */}
+          <div className="absolute bottom-6 left-6 px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30 backdrop-blur-md text-blue-400 text-xs font-bold uppercase tracking-widest">
+            {founder.role}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-8">
+          <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+            {founder.name}
+          </h3>
+          <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3">
+            {founder.bio}
+          </p>
+          
+          {founder.cv_url && (
+            <a
+              href={founder.cv_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-semibold transition-all duration-300 hover:bg-blue-500 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/25"
+            >
+              <Download className="w-4 h-4" />
+              Download CV
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
