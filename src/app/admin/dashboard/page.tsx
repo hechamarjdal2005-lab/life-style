@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MessageSquare, Briefcase, Users, Eye } from "lucide-react";
+import { MessageSquare, Briefcase, Users, Eye, Layers } from "lucide-react";
 
 export default async function DashboardOverview() {
   const supabase = await createClient();
@@ -9,19 +9,25 @@ export default async function DashboardOverview() {
     { count: messagesCount },
     { count: projectsCount },
     { count: servicesCount },
+    { count: foundersCount },
+    { count: techCount },
+    { count: processCount },
     { data: recentMessages },
   ] = await Promise.all([
     supabase.from("contact_messages").select("*", { count: 'exact', head: true }),
     supabase.from("projects").select("*", { count: 'exact', head: true }),
     supabase.from("services").select("*", { count: 'exact', head: true }),
+    supabase.from("founders").select("*", { count: 'exact', head: true }),
+    supabase.from("tech_stack").select("*", { count: 'exact', head: true }),
+    supabase.from("process_steps").select("*", { count: 'exact', head: true }),
     supabase.from("contact_messages").select("*").order("created_at", { ascending: false }).limit(5),
   ]);
 
   const stats = [
     { name: "Total Messages", value: messagesCount || 0, icon: MessageSquare, color: "text-blue-500" },
     { name: "Active Projects", value: projectsCount || 0, icon: Briefcase, color: "text-cyan-500" },
-    { name: "Services", value: servicesCount || 0, icon: Eye, color: "text-indigo-500" },
-    { name: "Team Members", value: 2, icon: Users, color: "text-purple-500" },
+    { name: "Process Steps", value: processCount || 0, icon: Layers, color: "text-emerald-500" },
+    { name: "Founders", value: foundersCount || 0, icon: Users, color: "text-purple-500" },
   ];
 
   return (

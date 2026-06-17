@@ -11,7 +11,8 @@ import {
   Wrench,
   Globe,
   UserRound,
-  LogOut
+  LogOut,
+  Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
@@ -22,6 +23,8 @@ const menuItems = [
   { name: "Hero", href: "/admin/dashboard/hero", icon: Globe },
   { name: "Services", href: "/admin/dashboard/services", icon: Wrench },
   { name: "Projects", href: "/admin/dashboard/projects", icon: Briefcase },
+  { name: "Tech Stack", href: "/admin/dashboard/tech-stack", icon: Wrench },
+  { name: "Process", href: "/admin/dashboard/process", icon: Layers },
   { name: "Messages", href: "/admin/dashboard/messages", icon: MessageSquare },
   { name: "Founders", href: "/admin/dashboard/founders", icon: UserRound },
   { name: "Team", href: "/admin/dashboard/team", icon: Users },

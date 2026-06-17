@@ -9,18 +9,18 @@ const containerVariants = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.12,
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 30 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
@@ -30,6 +30,7 @@ export function Hero() {
       id="home"
       className="relative isolate min-h-[100svh] overflow-hidden bg-[#020617] text-white"
     >
+      {/* Video Background */}
       <div className="absolute inset-0 -z-20">
         <motion.video
           className="h-full w-full object-cover object-center"
@@ -40,69 +41,75 @@ export function Hero() {
           preload="metadata"
           aria-hidden="true"
           tabIndex={-1}
-          initial={{ opacity: 0, scale: 1.04 }}
+          initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
         >
           <source src="/videos/hero.mp4" type="video/mp4" />
         </motion.video>
       </div>
 
-      <div className="absolute inset-0 -z-10 bg-[#020617]/72" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.34),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(14,165,233,0.18),transparent_30%),linear-gradient(180deg,rgba(2,6,23,0.16)_0%,rgba(2,6,23,0.68)_42%,rgba(2,6,23,0.94)_100%)]" />
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(135deg,rgba(96,165,250,0.08),transparent_45%,rgba(14,165,233,0.04))]" />
-      <div className="absolute inset-0 -z-10 opacity-30 [background-image:linear-gradient(rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.08)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:radial-gradient(circle_at_center,black,transparent_82%)]" />
+      {/* Cinematic Overlays */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#020617]/80 via-[#020617]/40 to-[#020617]/95" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15),transparent_50%)]" />
+      <div className="absolute inset-0 -z-10 opacity-20 [background-image:linear-gradient(rgba(148,163,184,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.05)_1px,transparent_1px)] [background-size:64px_64px]" />
 
-      <div className="relative z-10 flex min-h-[100svh] items-center">
-        <div className="container mx-auto px-6 py-28 sm:px-8 lg:py-32">
+      <div className="relative z-10 flex min-h-[100svh] items-center justify-center">
+        <div className="container mx-auto px-6 py-20 md:py-32">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="mx-auto flex max-w-5xl flex-col items-center text-center"
+            className="mx-auto flex max-w-4xl flex-col items-center text-center"
           >
+            {/* Badge */}
             <motion.div
               variants={itemVariants}
-              className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-4 py-2 text-sm font-medium tracking-[0.18em] text-slate-200 shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_20px_60px_rgba(2,6,23,0.35)] backdrop-blur-xl"
+              className="mb-8 md:mb-10 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-blue-400 backdrop-blur-md shadow-xl"
             >
-              <Sparkles className="h-4 w-4 text-sky-300" />
-              <span>Digital Agency • Web &amp; Mobile Experts</span>
+              <Sparkles className="h-3 w-3 md:h-3.5 md:w-3.5" />
+              <span>Digital Innovation Studio</span>
             </motion.div>
 
+            {/* Heading */}
             <motion.h1
               variants={itemVariants}
-              className="max-w-5xl text-balance text-5xl font-black tracking-[-0.05em] leading-[0.92] sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.25rem]"
+              className="text-balance text-4xl font-black tracking-tight leading-[1.15] sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6rem]"
             >
               Transforming Ideas Into{" "}
-              <span className="bg-gradient-to-r from-sky-200 via-blue-400 to-cyan-300 bg-clip-text text-transparent">
-                Exceptional Digital Products
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent drop-shadow-sm">
+                  Exceptional Digital Products
+                </span>
+                <span className="absolute -bottom-1 md:-bottom-2 left-0 h-1 md:h-1.5 w-1/3 rounded-full bg-blue-600/30 blur-sm" />
               </span>
             </motion.h1>
 
+            {/* Subtitle */}
             <motion.p
               variants={itemVariants}
-              className="mt-8 max-w-3xl text-pretty text-base leading-8 text-slate-300/90 sm:text-lg md:text-xl lg:text-2xl"
+              className="mt-8 md:mt-10 max-w-2xl text-pretty text-sm md:text-base lg:text-lg leading-relaxed text-slate-300/80"
             >
-              We craft high-performance digital experiences, scalable web platforms,
-              and innovative mobile applications that help ambitious brands grow,
-              engage, and lead their markets.
+              We craft high-performance digital experiences and scalable platforms 
+              that help ambitious brands grow, engage, and lead their markets.
             </motion.p>
 
+            {/* Buttons */}
             <motion.div
               variants={itemVariants}
-              className="mt-12 flex w-full flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5"
+              className="mt-10 md:mt-14 flex w-full flex-col items-center justify-center gap-4 sm:flex-row"
             >
               <Link
                 href="#contact"
-                className="group inline-flex h-14 items-center justify-center rounded-full border border-sky-400/20 bg-sky-500 px-8 text-base font-semibold text-white shadow-[0_0_0_1px_rgba(56,189,248,0.12),0_20px_60px_rgba(14,165,233,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-sky-400 hover:shadow-[0_0_0_1px_rgba(56,189,248,0.18),0_24px_70px_rgba(14,165,233,0.36)] active:translate-y-0"
+                className="group relative inline-flex h-14 md:h-16 w-full items-center justify-center overflow-hidden rounded-full bg-blue-600 px-8 md:px-10 text-base md:text-lg font-bold text-white shadow-[0_0_40px_rgba(37,99,235,0.3)] transition-all duration-300 hover:bg-blue-500 hover:shadow-[0_0_60px_rgba(37,99,235,0.5)] active:scale-95 sm:w-auto"
               >
                 Start Your Project
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
 
               <Link
                 href="#portfolio"
-                className="inline-flex h-14 items-center justify-center rounded-full border border-white/12 bg-white/8 px-8 text-base font-semibold text-white shadow-[0_12px_40px_rgba(2,6,23,0.35)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/12 hover:text-white active:translate-y-0"
+                className="inline-flex h-14 md:h-16 w-full items-center justify-center rounded-full border border-white/10 bg-white/5 px-8 md:px-10 text-base md:text-lg font-bold text-white backdrop-blur-xl transition-all duration-300 hover:bg-white/10 hover:border-white/20 active:scale-95 sm:w-auto"
               >
                 View Our Work
               </Link>
@@ -111,7 +118,8 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#020617] to-transparent" />
+      {/* Bottom Fade */}
+      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#020617] via-[#020617]/50 to-transparent" />
     </section>
   );
 }

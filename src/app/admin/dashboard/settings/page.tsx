@@ -25,7 +25,16 @@ export default function AdminSettings() {
   useEffect(() => {
     async function fetchData() {
       const { data: settings, error } = await supabase.from("site_settings").select("*").single();
-      if (settings) setData(settings);
+      if (settings) {
+        // Normalize null values to empty strings to avoid "controlled input" warnings
+        const normalizedData = { ...settings };
+        Object.keys(normalizedData).forEach((key) => {
+          if (normalizedData[key] === null) {
+            normalizedData[key] = "";
+          }
+        });
+        setData(normalizedData);
+      }
       setLoading(false);
     }
     fetchData();

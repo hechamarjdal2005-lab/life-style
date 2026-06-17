@@ -3,19 +3,18 @@
 import { motion } from "framer-motion";
 import { Download, Users } from "lucide-react";
 
-interface TeamMember {
+interface Founder {
   id: string;
   name: string;
   role: string;
   bio: string;
-  avatar_url: string | null;
+  photo_url: string | null;
   cv_url: string | null;
-  is_founder: boolean;
   display_order: number;
 }
 
 interface AboutProps {
-  founders: TeamMember[];
+  founders: Founder[];
   vision: {
     title: string;
     content: string;
@@ -32,7 +31,7 @@ export function About({ founders, vision }: AboutProps) {
   const rightFounder = displayFounders[1];
 
   return (
-    <section id="about" className="relative py-32 bg-[#0F172A] overflow-hidden">
+    <section id="about" className="relative py-20 md:py-32 bg-[#0F172A] overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[120px] rounded-full" />
@@ -41,12 +40,12 @@ export function About({ founders, vision }: AboutProps) {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-24">
+        <div className="text-center mb-16 md:mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-semibold mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-6"
           >
             <Users className="w-4 h-4" />
             <span>The Team</span>
@@ -56,7 +55,7 @@ export function About({ founders, vision }: AboutProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight"
+            className="text-3xl md:text-6xl font-bold text-white mb-6 tracking-tight"
           >
             Meet The <span className="text-blue-500">Founders</span>
           </motion.h2>
@@ -65,9 +64,9 @@ export function About({ founders, vision }: AboutProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto"
+            className="text-slate-400 text-base md:text-xl max-w-2xl mx-auto"
           >
-            The people behind H&M Studio.
+            The visionaries behind H&M Studio.
           </motion.p>
         </div>
 
@@ -92,7 +91,7 @@ export function About({ founders, vision }: AboutProps) {
               
               <div className="relative z-10 text-center">
                 <div className="inline-block px-4 py-1.5 rounded-full bg-blue-500/5 border border-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-widest mb-8">
-                  About H&M Studio
+                  Our Shared Vision
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 leading-tight">
                   {vision.title}
@@ -130,7 +129,7 @@ export function About({ founders, vision }: AboutProps) {
   );
 }
 
-function FounderCard({ founder, index }: { founder?: TeamMember; index: number }) {
+function FounderCard({ founder, index }: { founder?: Founder; index: number }) {
   if (!founder) return null;
 
   return (
@@ -144,9 +143,9 @@ function FounderCard({ founder, index }: { founder?: TeamMember; index: number }
       <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.03] backdrop-blur-md transition-all duration-500 group-hover:border-blue-500/30 group-hover:shadow-[0_0_50px_rgba(59,130,246,0.1)]">
         {/* Image Container */}
         <div className="relative aspect-[4/5] overflow-hidden">
-          {founder.avatar_url ? (
+          {founder.photo_url ? (
             <img
-              src={founder.avatar_url}
+              src={founder.photo_url}
               alt={founder.name}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
@@ -162,17 +161,17 @@ function FounderCard({ founder, index }: { founder?: TeamMember; index: number }
           <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent opacity-60" />
           
           {/* Role Badge */}
-          <div className="absolute bottom-6 left-6 px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30 backdrop-blur-md text-blue-400 text-xs font-bold uppercase tracking-widest">
+          <div className="absolute bottom-6 left-6 px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30 backdrop-blur-md text-blue-400 text-[10px] md:text-xs font-bold uppercase tracking-widest">
             {founder.role}
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-8">
-          <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+        <div className="p-6 md:p-8">
+          <h3 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
             {founder.name}
           </h3>
-          <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3">
+          <p className="text-slate-400 text-xs md:text-sm leading-relaxed mb-6 line-clamp-4">
             {founder.bio}
           </p>
           
@@ -181,7 +180,7 @@ function FounderCard({ founder, index }: { founder?: TeamMember; index: number }
               href={founder.cv_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-semibold transition-all duration-300 hover:bg-blue-500 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/25"
+              className="flex items-center justify-center gap-2 w-full py-3.5 md:py-4 rounded-2xl bg-white/5 border border-white/10 text-white text-sm md:text-base font-semibold transition-all duration-300 hover:bg-blue-600 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/25"
             >
               <Download className="w-4 h-4" />
               Download CV
