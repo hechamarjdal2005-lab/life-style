@@ -160,42 +160,43 @@ export function Portfolio({ data }: PortfolioProps) {
         </motion.div>
       </div>
 
-      {/* Gallery Modal — unchanged design */}
+      {/* Gallery Modal — Enhanced design */}
       <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-        <DialogContent className="max-w-7xl bg-[#0F172A] border-white/10 p-0 overflow-hidden outline-none">
+        <DialogContent className="max-w-[95%] sm:max-w-2xl lg:max-w-5xl xl:max-w-6xl bg-[#0F172A] border-white/10 p-0 overflow-hidden outline-none rounded-[2rem] shadow-2xl">
           {selectedProject && (
-            <div className="flex flex-col lg:flex-row min-h-[90vh] lg:h-[85vh]">
+            <div className="flex flex-col lg:flex-row h-full max-h-[90vh] lg:max-h-[85vh]">
               {/* Left: Gallery */}
-              <div className="flex-1 bg-black/40 flex items-center justify-center p-8 relative overflow-hidden">
+              <div className="flex-1 bg-black/40 flex items-center justify-center p-4 sm:p-8 lg:p-12 relative overflow-hidden min-h-[300px] lg:min-h-0">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-600/10 blur-[100px] rounded-full pointer-events-none" />
 
-                <Carousel className="w-full max-w-5xl relative z-10">
-                  <CarouselContent>
+                <Carousel className="w-full h-full flex items-center justify-center relative z-10">
+                  <CarouselContent className="h-full">
                     {selectedProject.images?.map((image) => (
-                      <CarouselItem key={image.id}>
-                        <div className="aspect-[16/10] relative rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.5)] border border-white/5">
+                      <CarouselItem key={image.id} className="h-full flex items-center justify-center">
+                        <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/5 max-h-full">
                           <img
                             src={image.image_url}
                             alt={image.alt_text}
-                            className="w-full h-full object-cover"
+                            className="w-full h-auto max-h-[50vh] lg:max-h-[70vh] object-contain"
                           />
                         </div>
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious className="left-4 bg-white/10 border-white/20 text-white hover:bg-white/20 h-12 w-12" />
-                  <CarouselNext className="right-4 bg-white/10 border-white/20 text-white hover:bg-white/20 h-12 w-12" />
+                  <CarouselPrevious className="hidden sm:flex -left-4 lg:-left-6 bg-white/10 border-white/20 text-white hover:bg-white/20 h-12 w-12" />
+                  <CarouselNext className="hidden sm:flex -right-4 lg:-right-6 bg-white/10 border-white/20 text-white hover:bg-white/20 h-12 w-12" />
                 </Carousel>
               </div>
 
               {/* Right: Info */}
-              <div className="w-full lg:w-[450px] border-l border-white/10 p-12 flex flex-col justify-between bg-[#0F172A] relative">
-                <div>
+              <div className="w-full lg:w-[400px] xl:w-[450px] border-t lg:border-t-0 lg:border-l border-white/10 flex flex-col bg-[#0F172A] relative overflow-hidden">
+                {/* Scrollable Content Area */}
+                <div className="flex-1 overflow-y-auto p-6 sm:p-8 lg:p-10 custom-scrollbar">
                   <div className="flex items-center justify-between mb-8">
                     <button
                       onClick={() => setSelectedProject(null)}
                       aria-label="Close project details"
-                      className="p-3 rounded-full hover:bg-white/5 text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
+                      className="p-2.5 rounded-full hover:bg-white/5 text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 lg:hidden"
                     >
                       <X size={24} />
                     </button>
@@ -204,39 +205,39 @@ export function Portfolio({ data }: PortfolioProps) {
                         href={selectedProject.live_link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label={`Visit live site for ${selectedProject.title}`}
-                        className="p-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 font-bold text-sm ml-auto"
                       >
-                        <ExternalLink size={20} />
+                        Visit Site <ExternalLink size={16} />
                       </a>
                     )}
                   </div>
 
-                  <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 tracking-tighter leading-tight">
+                  <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 tracking-tight leading-tight">
                     {selectedProject.title}
                   </h2>
 
-                  <div className="flex flex-wrap gap-2 mb-10">
+                  <div className="flex flex-wrap gap-2 mb-8">
                     {selectedProject.tags.map((tag) => (
                       <Badge
                         key={tag}
-                        className="bg-white/5 text-slate-300 border-white/10 px-4 py-1.5 rounded-full font-medium"
+                        className="bg-white/5 text-slate-300 border-white/10 px-3 py-1 rounded-full font-medium text-xs"
                       >
                         {tag}
                       </Badge>
                     ))}
                   </div>
 
-                  <div className="h-px w-full bg-gradient-to-r from-white/10 to-transparent mb-10" />
+                  <div className="h-px w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
 
-                  <p className="text-slate-400 text-lg leading-relaxed">
+                  <p className="text-slate-400 text-base md:text-lg leading-relaxed">
                     {selectedProject.description}
                   </p>
                 </div>
 
-                <div className="mt-8">
+                {/* Fixed Footer with Back Button */}
+                <div className="p-6 bg-[#0F172A]/80 backdrop-blur-md border-t border-white/5">
                   <Button
-                    className="w-full bg-white text-black hover:bg-slate-200 h-16 rounded-2xl font-bold text-lg transition-all active:scale-[0.98]"
+                    className="w-full bg-white text-black hover:bg-slate-200 h-14 rounded-xl font-bold text-base transition-all active:scale-[0.98] shadow-xl"
                     onClick={() => setSelectedProject(null)}
                   >
                     Back to Portfolio
