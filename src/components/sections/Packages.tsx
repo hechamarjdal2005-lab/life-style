@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Check, Gift, Code2 } from "lucide-react";
+import { Check, Gift, Code2, Globe, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { packages, type Pack } from "@/lib/packages";
+import { iconMap, type Package } from "@/lib/packages";
+import { createClient } from "@/lib/supabase/client";
 
 const sectionVariants = {
   hidden: { opacity: 0 },
@@ -26,6 +27,29 @@ const headerVariants = {
 
 export function Packages() {
   const reduced = useReducedMotion();
+  const [packages, setPackages] = useState<Package[]>([]);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function fetchPackages() {
+      try {
+        const { data, error } = await supabase
+          .from("packages")
+          .select("*")
+          .order("order_index");
+        
+        if (error) throw error;
+        if (data) setPackages(data);
+      } catch (error) {
+        console.error("Error fetching packages:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchPackages();
+  }, [supabase]);
 
   return (
     <section
@@ -67,33 +91,40 @@ export function Packages() {
         </motion.div>
 
         {/* Cards grid */}
-        <motion.div
-          variants={sectionVariants}
-          initial={reduced ? false : "hidden"}
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {packages.map((pack, i) => (
-            <motion.div
-              key={pack.id}
-              variants={cardVariants}
-              className={cn(
-                packages.length % 3 === 1 &&
-                  i === packages.length - 1 &&
-                  "lg:col-start-2"
-              )}
-            >
-              <PackCard pack={pack} reduced={!!reduced} />
-            </motion.div>
-          ))}
-        </motion.div>
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <Loader2 className="w-10 h-10 text-blue-500 animate-spin" />
+            <p className="text-slate-400 animate-pulse">Loading amazing packages...</p>
+          </div>
+        ) : (
+          <motion.div
+            variants={sectionVariants}
+            initial={reduced ? false : "hidden"}
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {packages.map((pack, i) => (
+              <motion.div
+                key={pack.id}
+                variants={cardVariants}
+                className={cn(
+                  packages.length % 3 === 1 &&
+                    i === packages.length - 1 &&
+                    "lg:col-start-2"
+                )}
+              >
+                <PackCard pack={pack} reduced={!!reduced} />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </div>
     </section>
   );
 }
 
-function PackCard({ pack, reduced }: { pack: Pack; reduced: boolean }) {
+function PackCard({ pack, reduced }: { pack: Package; reduced: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const spotRef = useRef<HTMLDivElement>(null);
   const ticking = useRef(false);
@@ -121,7 +152,7 @@ function PackCard({ pack, reduced }: { pack: Pack; reduced: boolean }) {
     }
   }, []);
 
-  const Icon = pack.icon;
+  const Icon = pack.icon_name ? (iconMap[pack.icon_name] || Globe) : Globe;
 
   const whatsappHref = `https://wa.me/212687337434?text=${encodeURIComponent(
     `Hello H&M Studio, I'm interested in the ${pack.title} package (${pack.price}).`
@@ -138,7 +169,7 @@ function PackCard({ pack, reduced }: { pack: Pack; reduced: boolean }) {
         "group relative flex flex-col h-full rounded-2xl border backdrop-blur-xl overflow-hidden transition-all duration-300",
         "bg-white/[0.03] border-white/[0.06]",
         "hover:border-blue-500/30 hover:shadow-[0_0_40px_rgba(59,130,246,0.08)]",
-        pack.highlighted &&
+        pack.is_popular &&
           "border-blue-500/40 shadow-[0_0_0_1px_rgba(59,130,246,0.14),0_0_40px_rgba(59,130,246,0.10)]"
       )}
     >
@@ -153,7 +184,7 @@ function PackCard({ pack, reduced }: { pack: Pack; reduced: boolean }) {
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       {/* Most Popular badge */}
-      {pack.highlighted && (
+      {pack.is_popular && (
         <div className="absolute top-4 right-4 z-10">
           <span className="px-3 py-1 rounded-full bg-blue-500 text-white text-[10px] font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(59,130,246,0.4)]">
             Most Popular
@@ -167,7 +198,7 @@ function PackCard({ pack, reduced }: { pack: Pack; reduced: boolean }) {
         <div
           className={cn(
             "inline-flex items-center justify-center w-12 h-12 rounded-xl mb-5 transition-transform duration-300 group-hover:scale-110",
-            pack.highlighted
+            pack.is_popular
               ? "bg-gradient-to-br from-blue-600 to-blue-400 text-white shadow-[0_0_24px_rgba(59,130,246,0.4)]"
               : "bg-white/[0.06] border border-white/[0.08] text-blue-400"
           )}
@@ -179,9 +210,11 @@ function PackCard({ pack, reduced }: { pack: Pack; reduced: boolean }) {
         <h3 className="text-xl font-bold text-white mb-1 tracking-tight group-hover:text-blue-300 transition-colors duration-300">
           {pack.title}
         </h3>
-        <p className="text-slate-400 text-sm mb-4 leading-relaxed">
-          {pack.tagline}
-        </p>
+        {pack.tagline && (
+          <p className="text-slate-400 text-sm mb-4 leading-relaxed">
+            {pack.tagline}
+          </p>
+        )}
 
         {/* Price */}
         <p className="text-2xl font-black text-blue-400 mb-5 tracking-tight">
@@ -210,33 +243,35 @@ function PackCard({ pack, reduced }: { pack: Pack; reduced: boolean }) {
         </ul>
 
         {/* Freebies block */}
-        <div className="flex-1 mb-5">
-          <div className="border-t border-white/[0.06] pt-4 mb-3">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">
-              Included for Free
-            </p>
+        {pack.freebies && pack.freebies.length > 0 && (
+          <div className="flex-1 mb-5">
+            <div className="border-t border-white/[0.06] pt-4 mb-3">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">
+                Included for Free
+              </p>
+            </div>
+            <div
+              className="rounded-xl bg-blue-500/[0.04] border border-blue-400/10 p-3 space-y-2.5"
+              aria-label={`${pack.title} free bonuses`}
+            >
+              {pack.freebies.map((freebie) => (
+                <div key={freebie} className="flex items-center gap-2.5">
+                  <Gift
+                    size={13}
+                    className="text-emerald-400 flex-shrink-0"
+                    aria-hidden="true"
+                  />
+                  <span className="text-sm text-slate-300 flex-1 leading-snug">
+                    {freebie}
+                  </span>
+                  <span className="flex-shrink-0 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full bg-emerald-500/15 border border-emerald-500/25 text-emerald-400">
+                    FREE
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-          <div
-            className="rounded-xl bg-blue-500/[0.04] border border-blue-400/10 p-3 space-y-2.5"
-            aria-label={`${pack.title} free bonuses`}
-          >
-            {pack.freebies.map((freebie) => (
-              <div key={freebie} className="flex items-center gap-2.5">
-                <Gift
-                  size={13}
-                  className="text-emerald-400 flex-shrink-0"
-                  aria-hidden="true"
-                />
-                <span className="text-sm text-slate-300 flex-1 leading-snug">
-                  {freebie}
-                </span>
-                <span className="flex-shrink-0 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full bg-emerald-500/15 border border-emerald-500/25 text-emerald-400">
-                  FREE
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+        )}
 
         {/* WhatsApp CTA */}
         <div className="border-t border-white/[0.06] pt-5 mt-auto">

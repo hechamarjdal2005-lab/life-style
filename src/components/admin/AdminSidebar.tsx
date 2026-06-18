@@ -25,6 +25,7 @@ const menuItems = [
   { name: "Projects", href: "/admin/dashboard/projects", icon: Briefcase },
   { name: "Tech Stack", href: "/admin/dashboard/tech-stack", icon: Wrench },
   { name: "Process", href: "/admin/dashboard/process", icon: Layers },
+  { name: "Packages", href: "/admin/dashboard/packages", icon: Briefcase },
   { name: "Messages", href: "/admin/dashboard/messages", icon: MessageSquare },
   { name: "Founders", href: "/admin/dashboard/founders", icon: UserRound },
   { name: "Team", href: "/admin/dashboard/team", icon: Users },

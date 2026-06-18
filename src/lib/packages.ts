@@ -9,6 +9,32 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+export const iconMap: Record<string, LucideIcon> = {
+  Globe,
+  Briefcase,
+  LayoutGrid,
+  PenTool,
+  Palette,
+  Workflow,
+  Smartphone,
+};
+
+export type Package = {
+  id: string;
+  title: string;
+  tagline: string | null;
+  price: string;
+  currency: string;
+  features: string[];
+  freebies: string[];
+  is_popular: boolean;
+  icon_name: string | null;
+  order_index: number;
+  created_at: string;
+  updated_at: string;
+};
+
+// Keep the old Pack type for backward compatibility until frontend is updated
 export type Pack = {
   id: string;
   icon: LucideIcon;

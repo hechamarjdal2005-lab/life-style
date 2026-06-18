@@ -357,7 +357,7 @@ export default function AdminFounders() {
             </DialogTitle>
           </DialogHeader>
           
-          <form onSubmit={handleSaveFounder} className="space-y-6 pt-4">
+          <form key={editingFounder?.id || "new"} onSubmit={handleSaveFounder} className="space-y-6 pt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Left Column: Basic Info */}
               <div className="space-y-4">
