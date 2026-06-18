@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +16,7 @@ interface ProcessProps {
 }
 
 export function Process({ data }: ProcessProps) {
+  const reduced = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -36,29 +37,31 @@ export function Process({ data }: ProcessProps) {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-600/5 blur-[120px] rounded-full" />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-20 md:mb-32">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center mb-16 md:mb-24">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            initial={reduced ? false : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest"
           >
             Our Methodology
           </motion.div>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduced ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.08 }}
             className="text-3xl md:text-6xl font-bold text-white mb-6 md:mb-8 tracking-tight"
           >
             How We <span className="text-blue-500">Create</span>
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduced ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.16 }}
             className="text-slate-400 text-base md:text-xl max-w-2xl mx-auto leading-relaxed"
           >
             A meticulous, battle-tested approach to delivering excellence at every stage of the lifecycle.
@@ -84,7 +87,7 @@ export function Process({ data }: ProcessProps) {
                   {/* Timeline Dot */}
                   <div className="absolute left-4 md:left-1/2 top-0 -translate-x-1/2 z-20">
                     <motion.div
-                      initial={{ scale: 0, opacity: 0 }}
+                      initial={reduced ? false : { scale: 0, opacity: 0 }}
                       whileInView={{ scale: 1, opacity: 1 }}
                       viewport={{ once: true, margin: "-100px" }}
                       className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#0F172A] border-2 border-blue-500 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.3)]"
@@ -103,7 +106,7 @@ export function Process({ data }: ProcessProps) {
                       isEven ? "md:pl-12" : "md:pr-12 md:text-right"
                     )}>
                       <motion.div
-                        initial={{ opacity: 0, x: isEven ? 50 : -50 }}
+                        initial={reduced ? false : { opacity: 0, x: isEven ? 40 : -40 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.6, ease: "easeOut" }}

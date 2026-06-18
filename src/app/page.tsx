@@ -5,6 +5,7 @@ import { About } from "@/components/sections/About";
 import { Services } from "@/components/sections/Services";
 import { TechStack } from "@/components/sections/TechStack";
 import { Portfolio } from "@/components/sections/Portfolio";
+import { Packages } from "@/components/sections/Packages";
 import { Process } from "@/components/sections/Process";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/layout/Footer";
@@ -58,9 +59,11 @@ export default async function Home() {
         )}
 
         {servicesData && <Services data={servicesData} />}
-        
+
+        <Packages />
+
         {techData && <TechStack data={techData} />}
-        
+
         {projectsData && <Portfolio data={projectsData} />}
 
         {/* Process Section */}

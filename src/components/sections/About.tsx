@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Download, Users } from "lucide-react";
 
 interface Founder {
@@ -22,6 +22,8 @@ interface AboutProps {
 }
 
 export function About({ founders, vision }: AboutProps) {
+  const reduced = useReducedMotion();
+
   // Sort founders and pick the first two for the layout
   const displayFounders = [...founders]
     .sort((a, b) => a.display_order - b.display_order)
@@ -31,39 +33,40 @@ export function About({ founders, vision }: AboutProps) {
   const rightFounder = displayFounders[1];
 
   return (
-    <section id="about" className="relative py-20 md:py-32 bg-[#0F172A] overflow-hidden">
+    <section id="about" className="relative py-24 md:py-32 bg-[#0F172A] overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[120px] rounded-full" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-400/10 blur-[120px] rounded-full" />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16 md:mb-24">
+        <div className="text-center mb-16 md:mb-20">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduced ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-6"
           >
-            <Users className="w-4 h-4" />
+            <Users className="w-4 h-4" aria-hidden="true" />
             <span>The Team</span>
           </motion.div>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduced ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.08 }}
             className="text-3xl md:text-6xl font-bold text-white mb-6 tracking-tight"
           >
             Meet The <span className="text-blue-500">Founders</span>
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduced ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.16 }}
             className="text-slate-400 text-base md:text-xl max-w-2xl mx-auto"
           >
             The visionaries behind H&M Studio.
@@ -80,10 +83,10 @@ export function About({ founders, vision }: AboutProps) {
           {/* Center Vision Content */}
           <div className="order-1 lg:order-2">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={reduced ? false : { opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
               className="relative p-8 md:p-12 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl shadow-2xl overflow-hidden group"
             >
               {/* Inner Glow */}
@@ -130,14 +133,15 @@ export function About({ founders, vision }: AboutProps) {
 }
 
 function FounderCard({ founder, index }: { founder?: Founder; index: number }) {
+  const reduced = useReducedMotion();
   if (!founder) return null;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={reduced ? false : { opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, delay: index * 0.2 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.12 }}
       className="group relative"
     >
       <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.03] backdrop-blur-md transition-all duration-500 group-hover:border-blue-500/30 group-hover:shadow-[0_0_50px_rgba(59,130,246,0.1)]">

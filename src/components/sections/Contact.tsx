@@ -61,7 +61,7 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="py-32 bg-[#0F172A] relative overflow-hidden">
+    <section id="contact" className="py-24 md:py-32 bg-[#0F172A] relative overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-600/10 blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-indigo-600/10 blur-[150px] rounded-full pointer-events-none" />
@@ -84,12 +84,13 @@ export function Contact() {
         className="absolute bottom-20 left-[10%] w-48 h-48 bg-gradient-to-tr from-indigo-500/20 to-blue-500/20 blur-3xl rounded-full"
       />
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-20">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest"
           >
             Get In Touch
@@ -97,7 +98,8 @@ export function Contact() {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.08 }}
             className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight"
           >
             Let's build something <br />
@@ -106,8 +108,8 @@ export function Contact() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.16 }}
             className="text-slate-400 text-lg md:text-xl leading-relaxed"
           >
             Have a category-defining project in mind? We're ready to engineer your vision into a digital masterpiece.
@@ -116,9 +118,10 @@ export function Contact() {
 
         <div className="max-w-4xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="relative p-6 md:p-16 rounded-[2rem] md:rounded-[3rem] bg-white/[0.02] border border-white/10 backdrop-blur-2xl shadow-2xl overflow-hidden"
           >
             {/* Inner Glow Overlay */}
