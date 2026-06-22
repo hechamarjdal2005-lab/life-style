@@ -15,22 +15,14 @@ interface Founder {
 
 interface AboutProps {
   founders: Founder[];
-  vision: {
-    title: string;
-    content: string;
-  };
 }
 
-export function About({ founders, vision }: AboutProps) {
+export function About({ founders }: AboutProps) {
   const reduced = useReducedMotion();
 
-  // Sort founders and pick the first two for the layout
-  const displayFounders = [...founders]
-    .sort((a, b) => a.display_order - b.display_order)
-    .slice(0, 2);
-
-  const leftFounder = displayFounders[0];
-  const rightFounder = displayFounders[1];
+  const displayFounders = [...founders].sort(
+    (a, b) => a.display_order - b.display_order
+  );
 
   return (
     <section id="about" className="relative py-24 md:py-32 bg-[#0F172A] overflow-hidden">
@@ -73,59 +65,11 @@ export function About({ founders, vision }: AboutProps) {
           </motion.p>
         </div>
 
-        {/* Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
-          {/* Left Founder */}
-          <div className="order-2 lg:order-1">
-            <FounderCard founder={leftFounder} index={0} />
-          </div>
-
-          {/* Center Vision Content */}
-          <div className="order-1 lg:order-2">
-            <motion.div
-              initial={reduced ? false : { opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="relative p-8 md:p-12 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-xl shadow-2xl overflow-hidden group"
-            >
-              {/* Inner Glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              
-              <div className="relative z-10 text-center">
-                <div className="inline-block px-4 py-1.5 rounded-full bg-blue-500/5 border border-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-widest mb-8">
-                  Our Shared Vision
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 leading-tight">
-                  {vision.title}
-                </h3>
-                <div className="h-px w-20 bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto mb-8" />
-                <p className="text-slate-400 text-lg leading-relaxed">
-                  {vision.content}
-                </p>
-
-                {/* Decorative Stats Replacement (Mini features) */}
-                <div className="mt-12 grid grid-cols-2 gap-4">
-                  {[
-                    { label: "Innovation", icon: "✨" },
-                    { label: "Quality", icon: "💎" },
-                    { label: "Strategy", icon: "🎯" },
-                    { label: "Execution", icon: "⚡" },
-                  ].map((item, i) => (
-                    <div key={i} className="p-4 rounded-2xl bg-white/5 border border-white/10 text-white/80 text-sm font-medium">
-                      <span className="mr-2">{item.icon}</span>
-                      {item.label}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right Founder */}
-          <div className="order-3">
-            <FounderCard founder={rightFounder} index={1} />
-          </div>
+        {/* Unified Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10">
+          {displayFounders.map((founder, index) => (
+            <FounderCard key={founder.id} founder={founder} index={index} />
+          ))}
         </div>
       </div>
     </section>

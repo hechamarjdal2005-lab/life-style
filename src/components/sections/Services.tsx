@@ -36,6 +36,7 @@ const headerVariants = {
 
 export function Services({ data }: ServicesProps) {
   const reduced = useReducedMotion();
+  const marqueeData = [...data, ...data];
 
   const getBentoClasses = (index: number) => {
     switch (index) {
@@ -84,13 +85,42 @@ export function Services({ data }: ServicesProps) {
           </motion.p>
         </motion.div>
 
+        {/* Mobile Marquee */}
+        <div className="md:hidden w-full overflow-hidden">
+          <div
+            className={cn(
+              "flex w-max",
+              reduced ? "animate-none" : "animate-marquee motion-safe:hover:[animation-play-state:paused] motion-safe:active:[animation-play-state:paused]"
+            )}
+          >
+            {marqueeData.map((service, i) => {
+              const IconComponent =
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (LucideIcons as any)[service.icon] ?? LucideIcons.Code;
+              const isFeatured = data.length > 0 && i % data.length === 0;
+
+              return (
+                <div key={`${service.id}-${i}`} className="mx-3 w-72 shrink-0">
+                  <ServiceCard
+                    service={service}
+                    isFeatured={isFeatured}
+                    IconComponent={IconComponent}
+                    reduced={!!reduced}
+                    compact
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Bento Grid */}
         <motion.div
           variants={sectionVariants}
           initial={reduced ? false : "hidden"}
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-min md:auto-rows-[200px]"
+          className="hidden md:grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-min md:auto-rows-[200px]"
         >
           {data.map((service, i) => {
             const IconComponent =
@@ -99,12 +129,17 @@ export function Services({ data }: ServicesProps) {
             const isFeatured = i === 0 || i === 5;
 
             return (
-              <motion.div key={service.id} variants={cardVariants} className={getBentoClasses(i)}>
+              <motion.div
+                key={service.id}
+                variants={cardVariants}
+                className={cn("w-72 shrink-0 snap-start md:w-auto md:shrink", getBentoClasses(i))}
+              >
                 <ServiceCard
                   service={service}
                   isFeatured={isFeatured}
                   IconComponent={IconComponent}
                   reduced={!!reduced}
+                  compact={false}
                 />
               </motion.div>
             );
@@ -120,12 +155,14 @@ function ServiceCard({
   isFeatured,
   IconComponent,
   reduced,
+  compact,
 }: {
   service: Service;
   isFeatured: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   IconComponent: any;
   reduced: boolean;
+  compact: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const spotRef = useRef<HTMLDivElement>(null);
@@ -162,7 +199,7 @@ function ServiceCard({
       whileHover={reduced ? {} : { y: -4 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
       className={cn(
-        "group relative h-full p-6 md:p-8 rounded-[2rem] border border-white/[0.08] backdrop-blur-xl overflow-hidden transition-all duration-400 flex flex-col justify-between",
+        "group relative h-72 md:h-full p-5 md:p-8 rounded-[2rem] border border-white/[0.08] backdrop-blur-xl overflow-hidden transition-all duration-400 flex flex-col justify-between",
         "hover:border-blue-500/35 hover:shadow-[0_0_50px_rgba(59,130,246,0.09)]",
         !isFeatured ? "bg-white/[0.02]" : ""
       )}
@@ -187,19 +224,25 @@ function ServiceCard({
       <div className="relative z-10">
         <div
           className={cn(
-            "inline-flex items-center justify-center rounded-2xl mb-6 transition-all duration-400 group-hover:scale-110 group-hover:rotate-3",
+            "inline-flex items-center justify-center rounded-2xl mb-4 md:mb-6 transition-all duration-400 group-hover:scale-110 group-hover:rotate-3",
             isFeatured
-              ? "w-16 h-16 bg-blue-500 text-white shadow-[0_0_30px_rgba(59,130,246,0.5)]"
-              : "w-12 h-12 bg-white/[0.05] border border-white/[0.08] text-blue-400 group-hover:bg-blue-500/20 group-hover:text-blue-300"
+              ? "w-14 h-14 md:w-16 md:h-16 bg-blue-500 text-white shadow-[0_0_30px_rgba(59,130,246,0.5)]"
+            : "w-11 h-11 md:w-12 md:h-12 bg-white/[0.05] border border-white/[0.08] text-blue-400 group-hover:bg-blue-500/20 group-hover:text-blue-300"
           )}
         >
-          <IconComponent size={isFeatured ? 32 : 24} aria-hidden="true" />
+          <IconComponent
+            aria-hidden="true"
+            className={cn(
+              isFeatured ? "h-7 w-7 md:h-8 md:w-8" : "h-5 w-5 md:h-6 md:w-6"
+            )}
+          />
         </div>
 
         <h3
           className={cn(
             "font-bold text-white transition-colors duration-300 group-hover:text-blue-400",
-            isFeatured ? "text-2xl md:text-3xl mb-4" : "text-xl mb-3"
+            compact ? "min-h-[3.5rem] md:min-h-0" : "",
+            isFeatured ? "text-xl md:text-2xl lg:text-3xl mb-3 md:mb-4" : "text-lg md:text-xl mb-2 md:mb-3"
           )}
         >
           {service.title}
@@ -208,7 +251,13 @@ function ServiceCard({
         <p
           className={cn(
             "text-slate-400 leading-relaxed",
-            isFeatured ? "text-lg md:text-xl line-clamp-4" : "text-sm line-clamp-3"
+            compact
+              ? isFeatured
+                ? "text-sm md:text-base lg:text-xl line-clamp-3"
+                : "text-sm line-clamp-3"
+              : isFeatured
+                ? "text-sm md:text-base lg:text-xl line-clamp-4"
+                : "text-sm line-clamp-3"
           )}
         >
           {service.description}

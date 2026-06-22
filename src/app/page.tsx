@@ -10,16 +10,8 @@ import { Process } from "@/components/sections/Process";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/layout/Footer";
 
-interface TeamMember {
-  id: string;
-  name: string;
-  role: string;
-  bio: string;
-  avatar_url: string | null;
-  cv_url: string | null;
-  is_founder: boolean;
-  display_order: number;
-}
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function Home() {
   const supabase = await createClient();
@@ -27,14 +19,16 @@ export default async function Home() {
   // Fetch all data in parallel
   const [
     { data: foundersData },
-    { data: visionData },
     { data: servicesData },
     { data: techData },
     { data: projectsData },
     { data: processData },
   ] = await Promise.all([
-    supabase.from("founders").select("*").order("display_order"),
-    supabase.from("founders_vision").select("*").single(),
+    supabase
+      .from("founders")
+      .select("*")
+      .order("display_order", { ascending: true })
+      .order("created_at", { ascending: true }),
     supabase.from("services").select("*").order("display_order"),
     supabase.from("tech_stack").select("*").order("display_order"),
     supabase.from("projects").select("*, images:project_images(*)").order("display_order"),
@@ -51,10 +45,6 @@ export default async function Home() {
         {foundersData && (
           <About 
             founders={foundersData} 
-            vision={visionData ? { title: visionData.title, content: visionData.content } : {
-              title: "A partnership built around strategy, design, and execution.",
-              content: "H&M Studio is shaped by two founders who combine product thinking, engineering discipline, and a sharp visual standard. Together, they turn ambitious ideas into scalable digital platforms."
-            }}
           />
         )}
 
