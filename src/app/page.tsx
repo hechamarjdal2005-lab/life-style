@@ -9,6 +9,7 @@ import { Packages } from "@/components/sections/Packages";
 import { Process } from "@/components/sections/Process";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/layout/Footer";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -40,6 +41,7 @@ export default async function Home() {
       <Navbar />
       
       <Hero />
+      <WhatsAppButton />
       
       <div className="relative z-10">
         {foundersData && (

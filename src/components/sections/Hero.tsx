@@ -4,10 +4,6 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 
-const FIRST_WORDS = ["Transforming", "Ideas", "Into"];
-const ACCENT_WORDS = ["Exceptional", "Digital", "Products"];
-const ALL_WORDS = [...FIRST_WORDS, "__accent__"];
-
 const containerVariants = {
   hidden: { opacity: 0 },
   show: {
@@ -83,48 +79,39 @@ export function Hero() {
             variants={containerVariants}
             initial={reduced ? false : "hidden"}
             animate="show"
-            className="mx-auto flex max-w-4xl flex-col items-center text-center"
+            className="flex max-w-4xl flex-col items-start text-left"
           >
             {/* Badge */}
             <motion.div
               variants={itemVariants}
-              className="mb-8 md:mb-10 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-blue-400 backdrop-blur-md shadow-xl"
+              className="mb-6 md:mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-blue-400 backdrop-blur-md shadow-xl"
             >
               <Sparkles className="h-3 w-3 md:h-3.5 md:w-3.5" aria-hidden="true" />
               <span>Digital Innovation Studio</span>
             </motion.div>
 
-            {/* Heading — word-by-word reveal */}
+            {/* Heading */}
             <motion.h1
               variants={containerVariants}
-              className="text-balance text-4xl font-black tracking-tight leading-[1.15] sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6rem]"
+              className="max-w-5xl text-balance text-3xl font-black uppercase tracking-[-0.04em] leading-tight sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl"
             >
-              {FIRST_WORDS.map((word) => (
-                <motion.span
-                  key={word}
-                  variants={wordVariants}
-                  className="inline-block mr-[0.22em]"
-                >
-                  {word}
-                </motion.span>
-              ))}
-
-              {/* Accent words — gradient, animate as one unit */}
-              <motion.span
-                variants={wordVariants}
-                className="relative inline-block"
-              >
-                <span className="bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent drop-shadow-sm">
+              <motion.span variants={wordVariants} className="block">
+                Transforming Ideas
+              </motion.span>
+              <motion.span variants={wordVariants} className="block">
+                Into
+              </motion.span>
+              <motion.span variants={wordVariants} className="block">
+                <span className="bg-gradient-to-r from-fuchsia-400 via-violet-300 to-sky-400 bg-clip-text text-transparent">
                   Exceptional Digital Products
                 </span>
-                <span className="absolute -bottom-1 md:-bottom-2 left-0 h-1 md:h-1.5 w-1/3 rounded-full bg-blue-600/30 blur-sm" />
               </motion.span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p
               variants={itemVariants}
-              className="mt-8 md:mt-10 max-w-2xl text-pretty text-sm md:text-base lg:text-lg leading-relaxed text-slate-300/80"
+              className="mt-6 md:mt-8 max-w-xl text-pretty text-base md:text-lg leading-relaxed text-slate-300/80"
             >
               We craft high-performance digital experiences and scalable platforms
               that help ambitious brands grow, engage, and lead their markets.
@@ -133,11 +120,11 @@ export function Hero() {
             {/* CTA Buttons */}
             <motion.div
               variants={itemVariants}
-              className="mt-10 md:mt-14 flex w-full flex-col items-center justify-center gap-4 sm:flex-row"
+              className="mt-8 md:mt-10 flex w-full flex-col items-start gap-4 sm:flex-row"
             >
               <Link
                 href="#contact"
-                className="group relative inline-flex h-14 md:h-16 w-full items-center justify-center overflow-hidden rounded-full bg-blue-600 px-8 md:px-10 text-base md:text-lg font-bold text-white shadow-[0_0_40px_rgba(37,99,235,0.3)] transition-all duration-300 hover:bg-blue-500 hover:shadow-[0_0_60px_rgba(37,99,235,0.5)] active:scale-95 sm:w-auto"
+                className="group relative inline-flex h-12 md:h-14 w-full sm:w-auto items-center justify-center overflow-hidden rounded-full bg-blue-600 px-8 md:px-10 text-sm md:text-base font-bold text-white shadow-[0_0_40px_rgba(37,99,235,0.3)] transition-all duration-300 hover:bg-blue-500 hover:shadow-[0_0_60px_rgba(37,99,235,0.5)] active:scale-95"
               >
                 Start Your Project
                 <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
@@ -145,7 +132,7 @@ export function Hero() {
 
               <Link
                 href="#portfolio"
-                className="inline-flex h-14 md:h-16 w-full items-center justify-center rounded-full border border-white/10 bg-white/5 px-8 md:px-10 text-base md:text-lg font-bold text-white backdrop-blur-xl transition-all duration-300 hover:bg-white/10 hover:border-white/20 active:scale-95 sm:w-auto"
+                className="inline-flex h-12 md:h-14 w-full sm:w-auto items-center justify-center rounded-full border border-white/10 bg-white/5 px-8 md:px-10 text-sm md:text-base font-bold text-white backdrop-blur-xl transition-all duration-300 hover:bg-white/10 hover:border-white/20 active:scale-95"
               >
                 View Our Work
               </Link>
