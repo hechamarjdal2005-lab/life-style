@@ -43,8 +43,17 @@ import { Label } from "@/components/ui/label";
 interface TeamMember {
   id: string;
   name: string;
+  name_en: string;
+  name_fr: string;
+  name_ar: string;
   role: string;
+  role_en: string;
+  role_fr: string;
+  role_ar: string;
   bio: string;
+  bio_en: string;
+  bio_fr: string;
+  bio_ar: string;
   avatar_url: string | null;
   cv_url: string | null;
   is_founder: boolean;
@@ -84,10 +93,29 @@ export default function AdminTeam() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     
+    const name_en = formData.get("name_en") as string;
+    const name_fr = formData.get("name_fr") as string;
+    const name_ar = formData.get("name_ar") as string;
+    const role_en = formData.get("role_en") as string;
+    const role_fr = formData.get("role_fr") as string;
+    const role_ar = formData.get("role_ar") as string;
+    const bio_en = formData.get("bio_en") as string;
+    const bio_fr = formData.get("bio_fr") as string;
+    const bio_ar = formData.get("bio_ar") as string;
+
     const memberData = {
-      name: formData.get("name") as string,
-      role: formData.get("role") as string,
-      bio: formData.get("bio") as string,
+      name: name_en,
+      name_en,
+      name_fr,
+      name_ar,
+      role: role_en,
+      role_en,
+      role_fr,
+      role_ar,
+      bio: bio_en,
+      bio_en,
+      bio_fr,
+      bio_ar,
       avatar_url: editingMember?.avatar_url || null,
       cv_url: editingMember?.cv_url || null,
       is_founder: editingMember?.is_founder || false,
@@ -182,7 +210,9 @@ export default function AdminTeam() {
               <TableHeader>
                 <TableRow className="border-white/10 hover:bg-transparent">
                   <TableHead className="text-slate-400 w-16">Photo</TableHead>
-                  <TableHead className="text-slate-400">Name</TableHead>
+                  <TableHead className="text-slate-400">Name (EN)</TableHead>
+                  <TableHead className="text-slate-400">Name (FR)</TableHead>
+                  <TableHead className="text-slate-400">Name (AR)</TableHead>
                   <TableHead className="text-slate-400">Role</TableHead>
                   <TableHead className="text-slate-400">Founder Status</TableHead>
                   <TableHead className="text-slate-400">Display Order</TableHead>
@@ -192,7 +222,7 @@ export default function AdminTeam() {
               <TableBody>
                 {team.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center py-12 text-slate-500">
+                    <TableCell colSpan={8} className="text-center py-12 text-slate-500">
                       No team members found. Click "Add Team Member" to start.
                     </TableCell>
                   </TableRow>
@@ -203,12 +233,14 @@ export default function AdminTeam() {
                         <Avatar className="w-10 h-10 border border-white/10">
                           <AvatarImage src={member.avatar_url || ''} className="object-cover" />
                           <AvatarFallback className="bg-slate-800 text-xs">
-                            {member.name.charAt(0)}
+                            {(member.name_en || member.name).charAt(0)}
                           </AvatarFallback>
                         </Avatar>
                       </TableCell>
-                      <TableCell className="font-semibold text-white">{member.name}</TableCell>
-                      <TableCell className="text-slate-400">{member.role}</TableCell>
+                      <TableCell className="font-semibold text-white">{member.name_en || member.name}</TableCell>
+                      <TableCell className="text-slate-400">{member.name_fr || "-"}</TableCell>
+                      <TableCell className="text-slate-400" dir="rtl">{member.name_ar || "-"}</TableCell>
+                      <TableCell className="text-slate-400">{member.role_en || member.role}</TableCell>
                       <TableCell>
                         {member.is_founder ? (
                           <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 px-3 py-1 font-bold">
@@ -261,31 +293,113 @@ export default function AdminTeam() {
           </DialogHeader>
           
           <form onSubmit={handleSave} className="space-y-6 pt-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Column: Basic Info */}
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="text-slate-400">Full Name</Label>
+            <div className="border-t border-white/10 pt-4">
+              <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Name</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">English</label>
                   <Input 
-                    name="name" 
-                    defaultValue={editingMember?.name} 
+                    name="name_en" 
+                    defaultValue={editingMember?.name_en || editingMember?.name} 
                     required 
                     placeholder="e.g. Hecham M."
                     className="bg-white/5 border-white/10 focus:border-blue-500/50" 
                   />
                 </div>
-                
-                <div className="space-y-2">
-                  <Label className="text-slate-400">Professional Role</Label>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">French</label>
                   <Input 
-                    name="role" 
-                    defaultValue={editingMember?.role} 
+                    name="name_fr" 
+                    defaultValue={editingMember?.name_fr} 
+                    placeholder="e.g. Hecham M."
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50" 
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">Arabic</label>
+                  <Input 
+                    name="name_ar" 
+                    defaultValue={editingMember?.name_ar} 
+                    dir="rtl" 
+                    placeholder="هشام م."
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50 text-right" 
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-white/10 pt-4">
+              <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Professional Role</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">English</label>
+                  <Input 
+                    name="role_en" 
+                    defaultValue={editingMember?.role_en || editingMember?.role} 
                     required 
                     placeholder="e.g. Lead Engineer"
                     className="bg-white/5 border-white/10 focus:border-blue-500/50" 
                   />
                 </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">French</label>
+                  <Input 
+                    name="role_fr" 
+                    defaultValue={editingMember?.role_fr} 
+                    placeholder="e.g. Ingénieur principal"
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50" 
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">Arabic</label>
+                  <Input 
+                    name="role_ar" 
+                    defaultValue={editingMember?.role_ar} 
+                    dir="rtl" 
+                    placeholder="مهندس رئيسي"
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50 text-right" 
+                  />
+                </div>
+              </div>
+            </div>
 
+            <div className="border-t border-white/10 pt-4">
+              <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Professional Biography</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">English</label>
+                  <Textarea 
+                    name="bio_en" 
+                    defaultValue={editingMember?.bio_en || editingMember?.bio} 
+                    required 
+                    placeholder="Write a brief professional background..."
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[120px] resize-none" 
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">French</label>
+                  <Textarea 
+                    name="bio_fr" 
+                    defaultValue={editingMember?.bio_fr} 
+                    placeholder="Écrivez un bref parcours professionnel..."
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[120px] resize-none" 
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">Arabic</label>
+                  <Textarea 
+                    name="bio_ar" 
+                    defaultValue={editingMember?.bio_ar} 
+                    dir="rtl" 
+                    placeholder="اكتب نبذة مهنية مختصرة..."
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[120px] resize-none text-right" 
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-white/10 pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label className="text-slate-400">Display Order</Label>
                   <Input 
@@ -295,7 +409,6 @@ export default function AdminTeam() {
                     className="bg-white/5 border-white/10 focus:border-blue-500/50" 
                   />
                 </div>
-
                 <div className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10">
                   <div className="space-y-0.5">
                     <Label className="text-white">Founder Status</Label>
@@ -307,10 +420,11 @@ export default function AdminTeam() {
                   />
                 </div>
               </div>
+            </div>
 
-              {/* Right Column: Uploads & Previews */}
-              <div className="space-y-6">
-                {/* Image Upload */}
+            <div className="border-t border-white/10 pt-4">
+              <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Uploads</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label className="text-slate-400">Profile Photo</Label>
                   <div className="relative group rounded-2xl border-2 border-dashed border-white/10 p-4 hover:border-blue-500/50 transition-colors bg-white/[0.02]">
@@ -349,7 +463,6 @@ export default function AdminTeam() {
                   </div>
                 </div>
 
-                {/* CV Upload */}
                 <div className="space-y-2">
                   <Label className="text-slate-400">Curriculum Vitae (PDF)</Label>
                   <div className="relative group rounded-xl border border-white/10 p-3 bg-white/[0.02] hover:bg-white/[0.05] transition-colors">
@@ -386,18 +499,6 @@ export default function AdminTeam() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Bio - Full Width */}
-            <div className="space-y-2">
-              <Label className="text-slate-400">Professional Biography</Label>
-              <Textarea 
-                name="bio" 
-                defaultValue={editingMember?.bio} 
-                required 
-                placeholder="Write a brief professional background..."
-                className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[120px] resize-none" 
-              />
             </div>
 
             <DialogFooter className="pt-6 border-t border-white/5 gap-3">

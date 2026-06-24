@@ -2,12 +2,19 @@
 
 import { motion } from "framer-motion";
 import { useSectionContent } from "@/hooks/useSectionContent";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface TechItem {
   id: string;
   name: string;
+  name_en?: string;
+  name_fr?: string;
+  name_ar?: string;
   logo_url: string;
   category: string;
+  category_en?: string;
+  category_fr?: string;
+  category_ar?: string;
   is_active: boolean;
 }
 
@@ -17,6 +24,7 @@ interface TechStackProps {
 
 export function TechStack({ data }: TechStackProps) {
   const { t } = useSectionContent("techstack");
+  const { language } = useLanguage();
 
   const activeTech = Array.from(
     new Map(data.filter(tech => tech.is_active).map(item => [item.name, item])).values()
@@ -60,7 +68,7 @@ export function TechStack({ data }: TechStackProps) {
 
           <div className="flex w-max animate-marquee whitespace-nowrap gap-12 md:gap-16 py-4 hover:[animation-play-state:paused]">
             {displayItems.map((item, idx) => (
-              <TechCard key={`${item.id}-${idx}`} tech={item} />
+              <TechCard key={`${item.id}-${idx}`} tech={item} language={language} />
             ))}
           </div>
         </div>
@@ -69,7 +77,7 @@ export function TechStack({ data }: TechStackProps) {
   );
 }
 
-function TechCard({ tech }: { tech: TechItem }) {
+function TechCard({ tech, language }: { tech: TechItem; language: string }) {
   return (
     <div className="inline-flex items-center justify-center w-56 md:w-64 h-32 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-xl p-8 transition-all duration-500 hover:bg-white/[0.08] hover:border-blue-500/40 hover:scale-105 hover:shadow-[0_0_50px_rgba(59,130,246,0.15)] group">
       <div className="flex items-center gap-5">
@@ -81,7 +89,7 @@ function TechCard({ tech }: { tech: TechItem }) {
           />
         </div>
         <span className="text-white/40 text-xl font-bold tracking-tight group-hover:text-white transition-colors">
-          {tech.name}
+          {(tech as any)[`name_${language}`] || tech.name}
         </span>
       </div>
     </div>

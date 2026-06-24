@@ -49,10 +49,29 @@ export default function AdminTestimonials() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const client_name_en = formData.get("client_name_en") as string;
+    const client_name_fr = formData.get("client_name_fr") as string;
+    const client_name_ar = formData.get("client_name_ar") as string;
+    const client_role_en = formData.get("client_role_en") as string;
+    const client_role_fr = formData.get("client_role_fr") as string;
+    const client_role_ar = formData.get("client_role_ar") as string;
+    const content_en = formData.get("content_en") as string;
+    const content_fr = formData.get("content_fr") as string;
+    const content_ar = formData.get("content_ar") as string;
+
     const testimonialData = {
-      client_name: formData.get("client_name"),
-      client_role: formData.get("client_role"),
-      content: formData.get("content"),
+      client_name: client_name_en,
+      client_name_en,
+      client_name_fr,
+      client_name_ar,
+      client_role: client_role_en,
+      client_role_en,
+      client_role_fr,
+      client_role_ar,
+      content: content_en,
+      content_en,
+      content_fr,
+      content_ar,
       rating: parseInt(formData.get("rating") as string) || 5,
       display_order: parseInt(formData.get("display_order") as string) || 0,
     };
@@ -99,7 +118,9 @@ export default function AdminTestimonials() {
           <Table>
             <TableHeader>
               <TableRow className="border-white/10">
-                <TableHead className="text-slate-400">Client</TableHead>
+                <TableHead className="text-slate-400">Client (EN)</TableHead>
+                <TableHead className="text-slate-400">Client (FR)</TableHead>
+                <TableHead className="text-slate-400">Client (AR)</TableHead>
                 <TableHead className="text-slate-400">Role</TableHead>
                 <TableHead className="text-slate-400">Rating</TableHead>
                 <TableHead className="text-right text-slate-400">Actions</TableHead>
@@ -108,8 +129,10 @@ export default function AdminTestimonials() {
             <TableBody>
               {testimonials.map((t) => (
                 <TableRow key={t.id} className="border-white/10">
-                  <TableCell className="font-bold">{t.client_name}</TableCell>
-                  <TableCell className="text-slate-400">{t.client_role}</TableCell>
+                  <TableCell className="font-bold">{t.client_name_en || t.client_name}</TableCell>
+                  <TableCell className="text-slate-400">{t.client_name_fr || "-"}</TableCell>
+                  <TableCell className="text-slate-400" dir="rtl">{t.client_name_ar || "-"}</TableCell>
+                  <TableCell className="text-slate-400">{t.client_role_en || t.client_role}</TableCell>
                   <TableCell>
                     <div className="flex gap-1 text-yellow-500">
                       {[...Array(t.rating)].map((_, i) => <Star key={i} size={12} fill="currentColor" />)}
@@ -131,37 +154,80 @@ export default function AdminTestimonials() {
       </Card>
 
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="bg-[#0F172A] border-white/10 text-white">
+        <DialogContent className="bg-[#0F172A] border-white/10 text-white max-w-2xl">
           <DialogHeader>
             <DialogTitle>{editingTestimonial ? "Edit Testimonial" : "Add Testimonial"}</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSave} className="space-y-4 pt-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-400">Client Name</label>
-                <Input name="client_name" defaultValue={editingTestimonial?.client_name} required className="bg-white/5 border-white/10" />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-400">Client Role</label>
-                <Input name="client_role" defaultValue={editingTestimonial?.client_role} className="bg-white/5 border-white/10" />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-400">Content</label>
-              <Textarea name="content" defaultValue={editingTestimonial?.content} required className="bg-white/5 border-white/10 min-h-[100px]" />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-400">Rating (1-5)</label>
-                <Input type="number" name="rating" min="1" max="5" defaultValue={editingTestimonial?.rating || 5} className="bg-white/5 border-white/10" />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-400">Display Order</label>
-                <Input type="number" name="display_order" defaultValue={editingTestimonial?.display_order || 0} className="bg-white/5 border-white/10" />
+          <form onSubmit={handleSave} className="space-y-6 pt-4">
+            <div className="border-t border-white/10 pt-4">
+              <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Client Name</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">English</label>
+                  <Input name="client_name_en" defaultValue={editingTestimonial?.client_name_en || editingTestimonial?.client_name} required className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">French</label>
+                  <Input name="client_name_fr" defaultValue={editingTestimonial?.client_name_fr} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">Arabic</label>
+                  <Input name="client_name_ar" defaultValue={editingTestimonial?.client_name_ar} dir="rtl" className="bg-white/5 border-white/10 text-right" />
+                </div>
               </div>
             </div>
-            <DialogFooter className="pt-6">
-              <Button type="button" variant="ghost" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+
+            <div className="border-t border-white/10 pt-4">
+              <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Client Role</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">English</label>
+                  <Input name="client_role_en" defaultValue={editingTestimonial?.client_role_en || editingTestimonial?.client_role} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">French</label>
+                  <Input name="client_role_fr" defaultValue={editingTestimonial?.client_role_fr} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">Arabic</label>
+                  <Input name="client_role_ar" defaultValue={editingTestimonial?.client_role_ar} dir="rtl" className="bg-white/5 border-white/10 text-right" />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-white/10 pt-4">
+              <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Content</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">English</label>
+                  <Textarea name="content_en" defaultValue={editingTestimonial?.content_en || editingTestimonial?.content} required className="bg-white/5 border-white/10 min-h-[100px]" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">French</label>
+                  <Textarea name="content_fr" defaultValue={editingTestimonial?.content_fr} className="bg-white/5 border-white/10 min-h-[100px]" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">Arabic</label>
+                  <Textarea name="content_ar" defaultValue={editingTestimonial?.content_ar} dir="rtl" className="bg-white/5 border-white/10 min-h-[100px] text-right" />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-white/10 pt-4">
+              <div className="grid grid-cols-2 gap-4 max-w-xs">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-slate-400">Rating (1-5)</label>
+                  <Input type="number" name="rating" min="1" max="5" defaultValue={editingTestimonial?.rating || 5} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-slate-400">Display Order</label>
+                  <Input type="number" name="display_order" defaultValue={editingTestimonial?.display_order || 0} className="bg-white/5 border-white/10" />
+                </div>
+              </div>
+            </div>
+
+            <DialogFooter className="pt-6 border-t border-white/5 gap-3">
+              <Button type="button" variant="ghost" onClick={() => setIsEditOpen(false)} className="text-slate-400 hover:text-white">Cancel</Button>
               <Button type="submit" className="bg-blue-600 hover:bg-blue-700">Save</Button>
             </DialogFooter>
           </form>

@@ -40,8 +40,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 interface TechItem {
   id: string;
   name: string;
+  name_en: string;
+  name_fr: string;
+  name_ar: string;
   logo_url: string;
   category: string;
+  category_en: string;
+  category_fr: string;
+  category_ar: string;
   display_order: number;
   is_active: boolean;
 }
@@ -80,8 +86,14 @@ export default function AdminTechStack() {
     const formData = new FormData(e.currentTarget);
     
     const techData = {
-      name: formData.get("name") as string,
-      category: formData.get("category") as string,
+      name: formData.get("name_en") as string,
+      name_en: formData.get("name_en") as string,
+      name_fr: formData.get("name_fr") as string,
+      name_ar: formData.get("name_ar") as string,
+      category: formData.get("category_en") as string,
+      category_en: formData.get("category_en") as string,
+      category_fr: formData.get("category_fr") as string,
+      category_ar: formData.get("category_ar") as string,
       logo_url: editingTech?.logo_url || "",
       is_active: editingTech?.is_active ?? true,
       display_order: parseInt(formData.get("display_order") as string) || 0,
@@ -266,36 +278,45 @@ export default function AdminTechStack() {
           <form onSubmit={handleSave} className="space-y-6 pt-4">
             <div className="space-y-4">
               <div className="grid grid-cols-1 gap-4">
-                <div className="space-y-2">
-                  <Label className="text-slate-400">Technology Name</Label>
-                  <Input 
-                    name="name" 
-                    defaultValue={editingTech?.name} 
-                    required 
-                    placeholder="e.g. Next.js"
-                    className="bg-white/5 border-white/10 focus:border-blue-500/50" 
-                  />
+                <div className="border-t border-white/10 pt-4">
+                  <Label className="text-slate-400 mb-3 block">Name</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div className="space-y-2">
+                      <Label className="text-xs text-slate-500">EN</Label>
+                      <Input name="name_en" defaultValue={editingTech?.name_en || editingTech?.name || ''} required placeholder="e.g. Next.js" className="bg-white/5 border-white/10 focus:border-blue-500/50" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-xs text-slate-500">FR</Label>
+                      <Input name="name_fr" defaultValue={editingTech?.name_fr || ''} placeholder="e.g. Next.js" className="bg-white/5 border-white/10 focus:border-blue-500/50" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-xs text-slate-500">AR</Label>
+                      <Input name="name_ar" defaultValue={editingTech?.name_ar || ''} dir="rtl" placeholder="مثال: Next.js" className="bg-white/5 border-white/10 focus:border-blue-500/50 text-right" />
+                    </div>
+                  </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label className="text-slate-400">Category</Label>
-                  <Input 
-                    name="category" 
-                    defaultValue={editingTech?.category || 'web'} 
-                    required 
-                    placeholder="e.g. Frontend, Backend, Mobile"
-                    className="bg-white/5 border-white/10 focus:border-blue-500/50" 
-                  />
+                <div className="border-t border-white/10 pt-4">
+                  <Label className="text-slate-400 mb-3 block">Category</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div className="space-y-2">
+                      <Label className="text-xs text-slate-500">EN</Label>
+                      <Input name="category_en" defaultValue={editingTech?.category_en || editingTech?.category || 'web'} required placeholder="e.g. Frontend" className="bg-white/5 border-white/10 focus:border-blue-500/50" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-xs text-slate-500">FR</Label>
+                      <Input name="category_fr" defaultValue={editingTech?.category_fr || ''} placeholder="e.g. Frontend" className="bg-white/5 border-white/10 focus:border-blue-500/50" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-xs text-slate-500">AR</Label>
+                      <Input name="category_ar" defaultValue={editingTech?.category_ar || ''} dir="rtl" placeholder="مثال: الواجهة الأمامية" className="bg-white/5 border-white/10 focus:border-blue-500/50 text-right" />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label className="text-slate-400">Display Order</Label>
-                  <Input 
-                    type="number" 
-                    name="display_order" 
-                    defaultValue={editingTech?.display_order || 0} 
-                    className="bg-white/5 border-white/10 focus:border-blue-500/50" 
-                  />
+                  <Input type="number" name="display_order" defaultValue={editingTech?.display_order || 0} className="bg-white/5 border-white/10 focus:border-blue-500/50" />
                 </div>
               </div>
 

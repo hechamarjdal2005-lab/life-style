@@ -8,8 +8,17 @@ import { useSectionContent } from "@/hooks/useSectionContent";
 interface Founder {
   id: string;
   name: string;
+  name_en?: string;
+  name_fr?: string;
+  name_ar?: string;
   role: string;
+  role_en?: string;
+  role_fr?: string;
+  role_ar?: string;
   bio: string;
+  bio_en?: string;
+  bio_fr?: string;
+  bio_ar?: string;
   photo_url: string | null;
   cv_url: string | null;
   display_order: number;
@@ -83,6 +92,10 @@ function FounderCard({ founder, index }: { founder?: Founder; index: number }) {
   const reduced = useReducedMotion();
   if (!founder) return null;
 
+  const name = (founder as any)[`name_${language}`] || founder.name;
+  const role = (founder as any)[`role_${language}`] || founder.role;
+  const bio = (founder as any)[`bio_${language}`] || founder.bio;
+
   return (
     <motion.div
       initial={reduced ? false : { opacity: 0, y: 28 }}
@@ -96,13 +109,13 @@ function FounderCard({ founder, index }: { founder?: Founder; index: number }) {
           {founder.photo_url ? (
             <img
               src={founder.photo_url}
-              alt={founder.name}
+              alt={name}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
           ) : (
             <div className="w-full h-full bg-slate-800 flex items-center justify-center">
               <span className="text-6xl font-bold text-white/10">
-                {founder.name.split(' ').map(n => n[0]).join('')}
+                {name.split(' ').map((n: string) => n[0]).join('')}
               </span>
             </div>
           )}
@@ -110,16 +123,16 @@ function FounderCard({ founder, index }: { founder?: Founder; index: number }) {
           <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent opacity-60" />
           
           <div className="absolute bottom-6 left-6 px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/30 backdrop-blur-md text-blue-400 text-[10px] md:text-xs font-bold uppercase tracking-widest">
-            {founder.role}
+            {role}
           </div>
         </div>
 
         <div className="p-6 md:p-8">
           <h3 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
-            {founder.name}
+            {name}
           </h3>
           <p className="text-slate-400 text-xs md:text-sm leading-relaxed mb-6 line-clamp-4">
-            {founder.bio}
+            {bio}
           </p>
           
           {founder.cv_url && (

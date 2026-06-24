@@ -17,6 +17,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useSectionContent } from "@/hooks/useSectionContent";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface ProjectImage {
   id: string;
@@ -28,7 +29,13 @@ interface ProjectImage {
 interface Project {
   id: string;
   title: string;
+  title_en?: string;
+  title_fr?: string;
+  title_ar?: string;
   description: string;
+  description_en?: string;
+  description_fr?: string;
+  description_ar?: string;
   tags: string[];
   live_link: string;
   images: ProjectImage[];
@@ -53,6 +60,7 @@ const cardVariants = {
 
 export function Portfolio({ data }: PortfolioProps) {
   const { t } = useSectionContent("portfolio");
+  const { language } = useLanguage();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const reduced = useReducedMotion();
 
@@ -98,6 +106,8 @@ export function Portfolio({ data }: PortfolioProps) {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
         >
           {data.map((project) => {
+            const projectTitle = (project as any)[`title_${language}`] || project.title;
+            const projectDescription = (project as any)[`description_${language}`] || project.description;
             const coverImage =
               project.images?.find((img) => img.is_cover) ||
               project.images?.[0];
@@ -113,7 +123,7 @@ export function Portfolio({ data }: PortfolioProps) {
               >
                 <img
                   src={coverImage?.image_url || "/placeholder.jpg"}
-                  alt={coverImage?.alt_text || project.title}
+                  alt={coverImage?.alt_text || projectTitle}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
@@ -133,11 +143,11 @@ export function Portfolio({ data }: PortfolioProps) {
                     </div>
 
                     <h3 className="text-xl font-bold text-white transition-colors duration-400 group-hover:text-blue-400">
-                      {project.title}
+                      {projectTitle}
                     </h3>
 
                     <p className="text-slate-300 text-sm line-clamp-2 opacity-0 group-hover:opacity-100 transition-all duration-400 delay-100">
-                      {project.description}
+                      {projectDescription}
                     </p>
                   </div>
                 </div>
@@ -200,7 +210,7 @@ export function Portfolio({ data }: PortfolioProps) {
                   </div>
 
                   <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 tracking-tight leading-tight">
-                    {selectedProject.title}
+                    {(selectedProject as any)[`title_${language}`] || selectedProject.title}
                   </h2>
 
                   <div className="flex flex-wrap gap-2 mb-8">
@@ -217,7 +227,7 @@ export function Portfolio({ data }: PortfolioProps) {
                   <div className="h-px w-full bg-gradient-to-r from-white/10 to-transparent mb-8" />
 
                   <p className="text-slate-400 text-base md:text-lg leading-relaxed">
-                    {selectedProject.description}
+                    {(selectedProject as any)[`description_${language}`] || selectedProject.description}
                   </p>
                 </div>
 

@@ -157,6 +157,11 @@ function PackCard({
   const spotRef = useRef<HTMLDivElement>(null);
   const ticking = useRef(false);
 
+  const packTitle = (pack as any)[`title_${language}`] || pack.title;
+  const packTagline = (pack as any)[`tagline_${language}`] || pack.tagline;
+  const features = (pack as any)[`features_${language}`] || pack.features || [];
+  const freebies = (pack as any)[`freebies_${language}`] || pack.freebies || [];
+
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (reduced) return;
@@ -183,7 +188,7 @@ function PackCard({
   const Icon = pack.icon_name ? (iconMap[pack.icon_name] || Globe) : Globe;
 
   const whatsappHref = `https://wa.me/212687337434?text=${encodeURIComponent(
-    `Hello H&M Studio, I'm interested in the ${pack.title} package (${pack.price}).`
+    `Hello H&M Studio, I'm interested in the ${packTitle} package (${pack.price}).`
   )}`;
 
   return (
@@ -235,14 +240,14 @@ function PackCard({
           "text-xl font-bold text-white mb-1 tracking-tight group-hover:text-blue-300 transition-colors duration-300",
           mobile ? "min-h-[3.5rem]" : ""
         )}>
-          {pack.title}
+          {packTitle}
         </h3>
-        {pack.tagline && (
+        {packTagline && (
           <p className={cn(
             "text-slate-400 text-sm md:text-sm mb-4 leading-relaxed",
             mobile ? "text-[15px] line-clamp-2" : ""
           )}>
-            {pack.tagline}
+            {packTagline}
           </p>
         )}
 
@@ -255,9 +260,9 @@ function PackCard({
             "space-y-2.5 mb-5",
             mobile ? "space-y-3" : ""
           )}
-          aria-label={`${pack.title} features`}
+          aria-label={`${packTitle} features`}
         >
-          {pack.features.map((feat) => (
+          {features.map((feat: string) => (
             <li
               key={feat}
               className={cn(
@@ -276,7 +281,7 @@ function PackCard({
           ))}
         </ul>
 
-        {pack.freebies && pack.freebies.length > 0 && (
+        {freebies.length > 0 && (
           <div className={cn("flex-1 mb-5", mobile ? "min-h-0" : "")}>
             <div className="border-t border-white/[0.06] pt-4 mb-3">
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">
@@ -288,9 +293,9 @@ function PackCard({
                 "rounded-xl bg-blue-500/[0.04] border border-blue-400/10 p-3 space-y-2.5",
                 mobile ? "space-y-3 p-4" : ""
               )}
-              aria-label={`${pack.title} free bonuses`}
+              aria-label={`${packTitle} free bonuses`}
             >
-              {pack.freebies.map((freebie) => (
+              {freebies.map((freebie: string) => (
                 <div key={freebie} className={cn("flex items-center gap-2.5", mobile ? "gap-3" : "")}>
                   <Gift
                     size={13}
@@ -314,7 +319,7 @@ function PackCard({
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`Order ${pack.title} via WhatsApp`}
+            aria-label={`Order ${packTitle} via WhatsApp`}
             className={cn(
               "group/link inline-flex items-center gap-2.5 w-full px-4 py-3 rounded-xl",
               "border border-white/[0.08] bg-white/[0.03] text-slate-300 text-sm font-medium",

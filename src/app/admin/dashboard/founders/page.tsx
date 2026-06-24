@@ -42,8 +42,17 @@ import { Label } from "@/components/ui/label";
 interface Founder {
   id: string;
   name: string;
+  name_en: string;
+  name_fr: string;
+  name_ar: string;
   role: string;
+  role_en: string;
+  role_fr: string;
+  role_ar: string;
   bio: string;
+  bio_en: string;
+  bio_fr: string;
+  bio_ar: string;
   photo_url: string | null;
   cv_url: string | null;
   display_order: number;
@@ -52,7 +61,13 @@ interface Founder {
 interface Vision {
   id: string;
   title: string;
+  title_en: string;
+  title_fr: string;
+  title_ar: string;
   content: string;
+  content_en: string;
+  content_fr: string;
+  content_ar: string;
 }
 
 export default function AdminFounders() {
@@ -95,10 +110,29 @@ export default function AdminFounders() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     
+    const name_en = formData.get("name_en") as string;
+    const name_fr = formData.get("name_fr") as string;
+    const name_ar = formData.get("name_ar") as string;
+    const role_en = formData.get("role_en") as string;
+    const role_fr = formData.get("role_fr") as string;
+    const role_ar = formData.get("role_ar") as string;
+    const bio_en = formData.get("bio_en") as string;
+    const bio_fr = formData.get("bio_fr") as string;
+    const bio_ar = formData.get("bio_ar") as string;
+
     const founderData = {
-      name: formData.get("name") as string,
-      role: formData.get("role") as string,
-      bio: formData.get("bio") as string,
+      name: name_en,
+      name_en,
+      name_fr,
+      name_ar,
+      role: role_en,
+      role_en,
+      role_fr,
+      role_ar,
+      bio: bio_en,
+      bio_en,
+      bio_fr,
+      bio_ar,
       photo_url: editingFounder?.photo_url || null,
       cv_url: editingFounder?.cv_url || null,
       display_order: parseInt(formData.get("display_order") as string) || 0,
@@ -127,8 +161,14 @@ export default function AdminFounders() {
     const formData = new FormData(e.currentTarget);
     
     const visionData = {
-      title: formData.get("vision_title") as string,
-      content: formData.get("vision_content") as string,
+      title: formData.get("vision_title_en") as string,
+      title_en: formData.get("vision_title_en") as string,
+      title_fr: formData.get("vision_title_fr") as string,
+      title_ar: formData.get("vision_title_ar") as string,
+      content: formData.get("vision_content_en") as string,
+      content_en: formData.get("vision_content_en") as string,
+      content_fr: formData.get("vision_content_fr") as string,
+      content_ar: formData.get("vision_content_ar") as string,
     };
 
     try {
@@ -231,7 +271,9 @@ export default function AdminFounders() {
                   <TableHeader>
                     <TableRow className="border-white/10 hover:bg-transparent">
                       <TableHead className="text-slate-400 w-16 pl-6">Photo</TableHead>
-                      <TableHead className="text-slate-400">Name</TableHead>
+                      <TableHead className="text-slate-400">Name (EN)</TableHead>
+                      <TableHead className="text-slate-400">Name (FR)</TableHead>
+                      <TableHead className="text-slate-400">Name (AR)</TableHead>
                       <TableHead className="text-slate-400">Role</TableHead>
                       <TableHead className="text-slate-400">Display Order</TableHead>
                       <TableHead className="text-right text-slate-400 pr-6">Actions</TableHead>
@@ -240,7 +282,7 @@ export default function AdminFounders() {
                   <TableBody>
                     {founders.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={5} className="text-center py-12 text-slate-500">
+                        <TableCell colSpan={7} className="text-center py-12 text-slate-500">
                           No founders found. Click "Add Founder" to start.
                         </TableCell>
                       </TableRow>
@@ -251,12 +293,14 @@ export default function AdminFounders() {
                             <Avatar className="w-10 h-10 border border-white/10">
                               <AvatarImage src={founder.photo_url || ''} className="object-cover" />
                               <AvatarFallback className="bg-slate-800 text-xs">
-                                {founder.name.charAt(0)}
+                                {(founder.name_en || founder.name).charAt(0)}
                               </AvatarFallback>
                             </Avatar>
                           </TableCell>
-                          <TableCell className="font-semibold text-white">{founder.name}</TableCell>
-                          <TableCell className="text-slate-400">{founder.role}</TableCell>
+                          <TableCell className="font-semibold text-white">{founder.name_en || founder.name}</TableCell>
+                          <TableCell className="text-slate-400">{founder.name_fr || "-"}</TableCell>
+                          <TableCell className="text-slate-400" dir="rtl">{founder.name_ar || "-"}</TableCell>
+                          <TableCell className="text-slate-400">{founder.role_en || founder.role}</TableCell>
                           <TableCell>
                             <Badge variant="outline" className="border-white/10 text-slate-400">
                               {founder.display_order}
@@ -306,25 +350,73 @@ export default function AdminFounders() {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSaveVision} className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="text-slate-400">Vision Title</Label>
-                  <Input 
-                    name="vision_title" 
-                    defaultValue={vision?.title} 
-                    required 
-                    placeholder="e.g. A partnership built around strategy..."
-                    className="bg-white/5 border-white/10 focus:border-blue-500/50" 
-                  />
+                <div className="border-t border-white/10 pt-4">
+                  <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Vision Title</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs text-slate-500">English</label>
+                      <Input 
+                        name="vision_title_en" 
+                        defaultValue={vision?.title_en || vision?.title} 
+                        required 
+                        placeholder="e.g. A partnership built around strategy..."
+                        className="bg-white/5 border-white/10 focus:border-blue-500/50" 
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs text-slate-500">French</label>
+                      <Input 
+                        name="vision_title_fr" 
+                        defaultValue={vision?.title_fr} 
+                        placeholder="e.g. Un partenariat basé sur la stratégie..."
+                        className="bg-white/5 border-white/10 focus:border-blue-500/50" 
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs text-slate-500">Arabic</label>
+                      <Input 
+                        name="vision_title_ar" 
+                        defaultValue={vision?.title_ar} 
+                        dir="rtl" 
+                        placeholder="شراكة مبنية على الاستراتيجية..."
+                        className="bg-white/5 border-white/10 focus:border-blue-500/50 text-right" 
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Label className="text-slate-400">Vision Content</Label>
-                  <Textarea 
-                    name="vision_content" 
-                    defaultValue={vision?.content} 
-                    required 
-                    placeholder="Describe the founders' combined vision..."
-                    className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[150px] resize-none" 
-                  />
+                <div className="border-t border-white/10 pt-4">
+                  <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Vision Content</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs text-slate-500">English</label>
+                      <Textarea 
+                        name="vision_content_en" 
+                        defaultValue={vision?.content_en || vision?.content} 
+                        required 
+                        placeholder="Describe the founders' combined vision..."
+                        className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[150px] resize-none" 
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs text-slate-500">French</label>
+                      <Textarea 
+                        name="vision_content_fr" 
+                        defaultValue={vision?.content_fr} 
+                        placeholder="Décrivez la vision combinée des fondateurs..."
+                        className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[150px] resize-none" 
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs text-slate-500">Arabic</label>
+                      <Textarea 
+                        name="vision_content_ar" 
+                        defaultValue={vision?.content_ar} 
+                        dir="rtl" 
+                        placeholder="صف الرؤية المشتركة للمؤسسين..."
+                        className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[150px] resize-none text-right" 
+                      />
+                    </div>
+                  </div>
                 </div>
                 <Button 
                   type="submit" 
@@ -358,31 +450,113 @@ export default function AdminFounders() {
           </DialogHeader>
           
           <form key={editingFounder?.id || "new"} onSubmit={handleSaveFounder} className="space-y-6 pt-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Column: Basic Info */}
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="text-slate-400">Full Name</Label>
+            <div className="border-t border-white/10 pt-4">
+              <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Name</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">English</label>
                   <Input 
-                    name="name" 
-                    defaultValue={editingFounder?.name} 
+                    name="name_en" 
+                    defaultValue={editingFounder?.name_en || editingFounder?.name} 
                     required 
                     placeholder="e.g. Hecham M."
                     className="bg-white/5 border-white/10 focus:border-blue-500/50" 
                   />
                 </div>
-                
-                <div className="space-y-2">
-                  <Label className="text-slate-400">Professional Role</Label>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">French</label>
                   <Input 
-                    name="role" 
-                    defaultValue={editingFounder?.role} 
+                    name="name_fr" 
+                    defaultValue={editingFounder?.name_fr} 
+                    placeholder="e.g. Hecham M."
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50" 
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">Arabic</label>
+                  <Input 
+                    name="name_ar" 
+                    defaultValue={editingFounder?.name_ar} 
+                    dir="rtl" 
+                    placeholder="هشام م."
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50 text-right" 
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-white/10 pt-4">
+              <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Professional Role</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">English</label>
+                  <Input 
+                    name="role_en" 
+                    defaultValue={editingFounder?.role_en || editingFounder?.role} 
                     required 
                     placeholder="e.g. Lead Engineer"
                     className="bg-white/5 border-white/10 focus:border-blue-500/50" 
                   />
                 </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">French</label>
+                  <Input 
+                    name="role_fr" 
+                    defaultValue={editingFounder?.role_fr} 
+                    placeholder="e.g. Ingénieur principal"
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50" 
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">Arabic</label>
+                  <Input 
+                    name="role_ar" 
+                    defaultValue={editingFounder?.role_ar} 
+                    dir="rtl" 
+                    placeholder="مهندس رئيسي"
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50 text-right" 
+                  />
+                </div>
+              </div>
+            </div>
 
+            <div className="border-t border-white/10 pt-4">
+              <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Founder Biography</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">English</label>
+                  <Textarea 
+                    name="bio_en" 
+                    defaultValue={editingFounder?.bio_en || editingFounder?.bio} 
+                    required 
+                    placeholder="Write a brief professional background..."
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[120px] resize-none" 
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">French</label>
+                  <Textarea 
+                    name="bio_fr" 
+                    defaultValue={editingFounder?.bio_fr} 
+                    placeholder="Écrivez un bref parcours professionnel..."
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[120px] resize-none" 
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-slate-500">Arabic</label>
+                  <Textarea 
+                    name="bio_ar" 
+                    defaultValue={editingFounder?.bio_ar} 
+                    dir="rtl" 
+                    placeholder="اكتب نبذة مهنية مختصرة..."
+                    className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[120px] resize-none text-right" 
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-white/10 pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label className="text-slate-400">Display Order</Label>
                   <Input 
@@ -393,10 +567,11 @@ export default function AdminFounders() {
                   />
                 </div>
               </div>
+            </div>
 
-              {/* Right Column: Uploads & Previews */}
-              <div className="space-y-6">
-                {/* Image Upload */}
+            <div className="border-t border-white/10 pt-4">
+              <h4 className="text-sm font-semibold text-blue-400 mb-4 uppercase tracking-wider">Uploads</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label className="text-slate-400">Founder Photo</Label>
                   <div className="relative group rounded-2xl border-2 border-dashed border-white/10 p-4 hover:border-blue-500/50 transition-colors bg-white/[0.02]">
@@ -435,7 +610,6 @@ export default function AdminFounders() {
                   </div>
                 </div>
 
-                {/* CV Upload */}
                 <div className="space-y-2">
                   <Label className="text-slate-400">Curriculum Vitae (PDF)</Label>
                   <div className="relative group rounded-xl border border-white/10 p-3 bg-white/[0.02] hover:bg-white/[0.05] transition-colors">
@@ -472,18 +646,6 @@ export default function AdminFounders() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Bio - Full Width */}
-            <div className="space-y-2">
-              <Label className="text-slate-400">Founder Biography</Label>
-              <Textarea 
-                name="bio" 
-                defaultValue={editingFounder?.bio} 
-                required 
-                placeholder="Write a brief professional background..."
-                className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[120px] resize-none" 
-              />
             </div>
 
             <DialogFooter className="pt-6 border-t border-white/5 gap-3">

@@ -32,9 +32,12 @@ export default function AdminPackages() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editingPackage, setEditingPackage] = useState<Partial<Package> | null>(null);
 
-  // Dynamic lists for features and freebies
-  const [features, setFeatures] = useState<string[]>([]);
-  const [freebies, setFreebies] = useState<string[]>([]);
+  const [featuresEn, setFeaturesEn] = useState<string[]>([]);
+  const [featuresFr, setFeaturesFr] = useState<string[]>([]);
+  const [featuresAr, setFeaturesAr] = useState<string[]>([]);
+  const [freebiesEn, setFreebiesEn] = useState<string[]>([]);
+  const [freebiesFr, setFreebiesFr] = useState<string[]>([]);
+  const [freebiesAr, setFreebiesAr] = useState<string[]>([]);
 
   const supabase = createClient();
 
@@ -54,8 +57,12 @@ export default function AdminPackages() {
 
   const openEdit = (pkg: Partial<Package> | null) => {
     setEditingPackage(pkg);
-    setFeatures(pkg?.features || []);
-    setFreebies(pkg?.freebies || []);
+    setFeaturesEn(pkg?.features_en || pkg?.features || []);
+    setFeaturesFr(pkg?.features_fr || []);
+    setFeaturesAr(pkg?.features_ar || []);
+    setFreebiesEn(pkg?.freebies_en || pkg?.freebies || []);
+    setFreebiesFr(pkg?.freebies_fr || []);
+    setFreebiesAr(pkg?.freebies_ar || []);
     setIsEditOpen(true);
   };
 
@@ -64,15 +71,27 @@ export default function AdminPackages() {
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     
     const packageData = {
-      title: formData.get("title") as string,
-      tagline: formData.get("tagline") as string,
+      title: formData.get("title_en") as string,
+      title_en: formData.get("title_en") as string,
+      title_fr: formData.get("title_fr") as string,
+      title_ar: formData.get("title_ar") as string,
+      tagline: formData.get("tagline_en") as string,
+      tagline_en: formData.get("tagline_en") as string,
+      tagline_fr: formData.get("tagline_fr") as string,
+      tagline_ar: formData.get("tagline_ar") as string,
       price: formData.get("price") as string,
       currency: formData.get("currency") as string || "MAD",
       is_popular: formData.get("is_popular") === "on",
       icon_name: formData.get("icon_name") as string,
       order_index: parseInt(formData.get("order_index") as string) || 0,
-      features: features.filter(f => f.trim() !== ""),
-      freebies: freebies.filter(f => f.trim() !== ""),
+      features: featuresEn.filter(f => f.trim() !== ""),
+      features_en: featuresEn.filter(f => f.trim() !== ""),
+      features_fr: featuresFr.filter(f => f.trim() !== ""),
+      features_ar: featuresAr.filter(f => f.trim() !== ""),
+      freebies: freebiesEn.filter(f => f.trim() !== ""),
+      freebies_en: freebiesEn.filter(f => f.trim() !== ""),
+      freebies_fr: freebiesFr.filter(f => f.trim() !== ""),
+      freebies_ar: freebiesAr.filter(f => f.trim() !== ""),
     };
 
     try {
@@ -108,21 +127,53 @@ export default function AdminPackages() {
     }
   };
 
-  const addFeature = () => setFeatures([...features, ""]);
-  const updateFeature = (index: number, value: string) => {
-    const newFeatures = [...features];
+  const addFeatureEn = () => setFeaturesEn([...featuresEn, ""]);
+  const updateFeatureEn = (index: number, value: string) => {
+    const newFeatures = [...featuresEn];
     newFeatures[index] = value;
-    setFeatures(newFeatures);
+    setFeaturesEn(newFeatures);
   };
-  const removeFeature = (index: number) => setFeatures(features.filter((_, i) => i !== index));
+  const removeFeatureEn = (index: number) => setFeaturesEn(featuresEn.filter((_, i) => i !== index));
 
-  const addFreebie = () => setFreebies([...freebies, ""]);
-  const updateFreebie = (index: number, value: string) => {
-    const newFreebies = [...freebies];
-    newFreebies[index] = value;
-    setFreebies(newFreebies);
+  const addFeatureFr = () => setFeaturesFr([...featuresFr, ""]);
+  const updateFeatureFr = (index: number, value: string) => {
+    const newFeatures = [...featuresFr];
+    newFeatures[index] = value;
+    setFeaturesFr(newFeatures);
   };
-  const removeFreebie = (index: number) => setFreebies(freebies.filter((_, i) => i !== index));
+  const removeFeatureFr = (index: number) => setFeaturesFr(featuresFr.filter((_, i) => i !== index));
+
+  const addFeatureAr = () => setFeaturesAr([...featuresAr, ""]);
+  const updateFeatureAr = (index: number, value: string) => {
+    const newFeatures = [...featuresAr];
+    newFeatures[index] = value;
+    setFeaturesAr(newFeatures);
+  };
+  const removeFeatureAr = (index: number) => setFeaturesAr(featuresAr.filter((_, i) => i !== index));
+
+  const addFreebieEn = () => setFreebiesEn([...freebiesEn, ""]);
+  const updateFreebieEn = (index: number, value: string) => {
+    const newFreebies = [...freebiesEn];
+    newFreebies[index] = value;
+    setFreebiesEn(newFreebies);
+  };
+  const removeFreebieEn = (index: number) => setFreebiesEn(freebiesEn.filter((_, i) => i !== index));
+
+  const addFreebieFr = () => setFreebiesFr([...freebiesFr, ""]);
+  const updateFreebieFr = (index: number, value: string) => {
+    const newFreebies = [...freebiesFr];
+    newFreebies[index] = value;
+    setFreebiesFr(newFreebies);
+  };
+  const removeFreebieFr = (index: number) => setFreebiesFr(freebiesFr.filter((_, i) => i !== index));
+
+  const addFreebieAr = () => setFreebiesAr([...freebiesAr, ""]);
+  const updateFreebieAr = (index: number, value: string) => {
+    const newFreebies = [...freebiesAr];
+    newFreebies[index] = value;
+    setFreebiesAr(newFreebies);
+  };
+  const removeFreebieAr = (index: number) => setFreebiesAr(freebiesAr.filter((_, i) => i !== index));
 
   if (loading) return <div className="flex items-center justify-center h-64"><Loader2 className="animate-spin" /></div>;
 
@@ -153,7 +204,7 @@ export default function AdminPackages() {
             <TableBody>
               {packages.map((pkg) => (
                 <TableRow key={pkg.id} className="border-white/10 hover:bg-white/5 transition-colors">
-                  <TableCell className="font-bold">{pkg.title}</TableCell>
+                  <TableCell className="font-bold">{pkg.title_en || pkg.title}</TableCell>
                   <TableCell className="text-blue-400 font-medium">{pkg.price}</TableCell>
                   <TableCell>
                     {pkg.is_popular ? (
@@ -193,23 +244,54 @@ export default function AdminPackages() {
             <DialogTitle>{editingPackage ? "Edit Package" : "Add Package"}</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSave} className="space-y-6 pt-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-slate-400">Title</Label>
-                <Input name="title" defaultValue={editingPackage?.title} required className="bg-white/5 border-white/10" />
+            <div className="space-y-2">
+              <Label className="text-slate-400">Title</Label>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">EN</span>
+                  <Input name="title_en" defaultValue={editingPackage?.title_en || editingPackage?.title} required className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">FR</span>
+                  <Input name="title_fr" defaultValue={editingPackage?.title_fr || ""} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">AR</span>
+                  <Input name="title_ar" defaultValue={editingPackage?.title_ar || ""} dir="rtl" className="bg-white/5 border-white/10 text-right" />
+                </div>
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label className="text-slate-400">Icon (Lucide name)</Label>
                 <Input name="icon_name" defaultValue={editingPackage?.icon_name || ""} placeholder="Globe, Briefcase, etc." className="bg-white/5 border-white/10" />
               </div>
               <div className="space-y-2">
-                <Label className="text-slate-400">Tagline</Label>
-                <Input name="tagline" defaultValue={editingPackage?.tagline || ""} className="bg-white/5 border-white/10" />
-              </div>
-              <div className="space-y-2">
                 <Label className="text-slate-400">Price Display</Label>
                 <Input name="price" defaultValue={editingPackage?.price} required placeholder="from 2,500 MAD" className="bg-white/5 border-white/10" />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-slate-400">Tagline</Label>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">EN</span>
+                  <Input name="tagline_en" defaultValue={editingPackage?.tagline_en || editingPackage?.tagline || ""} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">FR</span>
+                  <Input name="tagline_fr" defaultValue={editingPackage?.tagline_fr || ""} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">AR</span>
+                  <Input name="tagline_ar" defaultValue={editingPackage?.tagline_ar || ""} dir="rtl" className="bg-white/5 border-white/10 text-right" />
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label className="text-slate-400">Display Order</Label>
                 <Input type="number" name="order_index" defaultValue={editingPackage?.order_index || 0} className="bg-white/5 border-white/10" />
@@ -220,23 +302,54 @@ export default function AdminPackages() {
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <Label className="text-slate-400">Features</Label>
-                <Button type="button" size="sm" variant="outline" onClick={addFeature} className="h-7 text-xs border-white/10 hover:bg-white/5">
-                  <Plus size={14} className="mr-1" /> Add Feature
-                </Button>
-              </div>
-              <div className="space-y-2">
-                {features.map((feature, index) => (
+            <div className="border-t border-white/10 pt-6 space-y-4">
+              <Label className="text-slate-400 text-base">Features</Label>
+
+              <div className="border border-white/10 rounded-lg p-4 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">EN</span>
+                  <Button type="button" size="sm" variant="outline" onClick={addFeatureEn} className="h-7 text-xs border-white/10 hover:bg-white/5">
+                    <Plus size={14} className="mr-1" /> Add
+                  </Button>
+                </div>
+                {featuresEn.map((feature, index) => (
                   <div key={index} className="flex gap-2">
-                    <Input 
-                      value={feature} 
-                      onChange={(e) => updateFeature(index, e.target.value)} 
-                      placeholder="Enter feature..." 
-                      className="bg-white/5 border-white/10"
-                    />
-                    <Button type="button" size="icon" variant="ghost" onClick={() => removeFeature(index)} className="text-slate-500 hover:text-red-500">
+                    <Input value={feature} onChange={(e) => updateFeatureEn(index, e.target.value)} placeholder="Enter feature..." className="bg-white/5 border-white/10" />
+                    <Button type="button" size="icon" variant="ghost" onClick={() => removeFeatureEn(index)} className="text-slate-500 hover:text-red-500">
+                      <X size={18} />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border border-white/10 rounded-lg p-4 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">FR</span>
+                  <Button type="button" size="sm" variant="outline" onClick={addFeatureFr} className="h-7 text-xs border-white/10 hover:bg-white/5">
+                    <Plus size={14} className="mr-1" /> Add
+                  </Button>
+                </div>
+                {featuresFr.map((feature, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input value={feature} onChange={(e) => updateFeatureFr(index, e.target.value)} placeholder="Entrez la fonctionnalité..." className="bg-white/5 border-white/10" />
+                    <Button type="button" size="icon" variant="ghost" onClick={() => removeFeatureFr(index)} className="text-slate-500 hover:text-red-500">
+                      <X size={18} />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border border-white/10 rounded-lg p-4 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">AR</span>
+                  <Button type="button" size="sm" variant="outline" onClick={addFeatureAr} className="h-7 text-xs border-white/10 hover:bg-white/5">
+                    <Plus size={14} className="mr-1" /> Add
+                  </Button>
+                </div>
+                {featuresAr.map((feature, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input value={feature} onChange={(e) => updateFeatureAr(index, e.target.value)} placeholder="أدخل الميزة..." dir="rtl" className="bg-white/5 border-white/10 text-right" />
+                    <Button type="button" size="icon" variant="ghost" onClick={() => removeFeatureAr(index)} className="text-slate-500 hover:text-red-500">
                       <X size={18} />
                     </Button>
                   </div>
@@ -244,23 +357,54 @@ export default function AdminPackages() {
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <Label className="text-slate-400">Freebies (Included for Free)</Label>
-                <Button type="button" size="sm" variant="outline" onClick={addFreebie} className="h-7 text-xs border-white/10 hover:bg-white/5">
-                  <Plus size={14} className="mr-1" /> Add Freebie
-                </Button>
-              </div>
-              <div className="space-y-2">
-                {freebies.map((freebie, index) => (
+            <div className="border-t border-white/10 pt-6 space-y-4">
+              <Label className="text-slate-400 text-base">Freebies (Included for Free)</Label>
+
+              <div className="border border-white/10 rounded-lg p-4 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">EN</span>
+                  <Button type="button" size="sm" variant="outline" onClick={addFreebieEn} className="h-7 text-xs border-white/10 hover:bg-white/5">
+                    <Plus size={14} className="mr-1" /> Add
+                  </Button>
+                </div>
+                {freebiesEn.map((freebie, index) => (
                   <div key={index} className="flex gap-2">
-                    <Input 
-                      value={freebie} 
-                      onChange={(e) => updateFreebie(index, e.target.value)} 
-                      placeholder="Enter freebie..." 
-                      className="bg-white/5 border-white/10"
-                    />
-                    <Button type="button" size="icon" variant="ghost" onClick={() => removeFreebie(index)} className="text-slate-500 hover:text-red-500">
+                    <Input value={freebie} onChange={(e) => updateFreebieEn(index, e.target.value)} placeholder="Enter freebie..." className="bg-white/5 border-white/10" />
+                    <Button type="button" size="icon" variant="ghost" onClick={() => removeFreebieEn(index)} className="text-slate-500 hover:text-red-500">
+                      <X size={18} />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border border-white/10 rounded-lg p-4 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">FR</span>
+                  <Button type="button" size="sm" variant="outline" onClick={addFreebieFr} className="h-7 text-xs border-white/10 hover:bg-white/5">
+                    <Plus size={14} className="mr-1" /> Add
+                  </Button>
+                </div>
+                {freebiesFr.map((freebie, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input value={freebie} onChange={(e) => updateFreebieFr(index, e.target.value)} placeholder="Entrez le bonus..." className="bg-white/5 border-white/10" />
+                    <Button type="button" size="icon" variant="ghost" onClick={() => removeFreebieFr(index)} className="text-slate-500 hover:text-red-500">
+                      <X size={18} />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border border-white/10 rounded-lg p-4 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">AR</span>
+                  <Button type="button" size="sm" variant="outline" onClick={addFreebieAr} className="h-7 text-xs border-white/10 hover:bg-white/5">
+                    <Plus size={14} className="mr-1" /> Add
+                  </Button>
+                </div>
+                {freebiesAr.map((freebie, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input value={freebie} onChange={(e) => updateFreebieAr(index, e.target.value)} placeholder="أدخل الهدية..." dir="rtl" className="bg-white/5 border-white/10 text-right" />
+                    <Button type="button" size="icon" variant="ghost" onClick={() => removeFreebieAr(index)} className="text-slate-500 hover:text-red-500">
                       <X size={18} />
                     </Button>
                   </div>

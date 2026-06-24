@@ -61,9 +61,15 @@ export default function AdminProjects() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const projectData = {
-      title: formData.get("title"),
+      title: formData.get("title_en"),
+      title_en: formData.get("title_en"),
+      title_fr: formData.get("title_fr"),
+      title_ar: formData.get("title_ar"),
       slug: formData.get("slug"),
-      description: formData.get("description"),
+      description: formData.get("description_en"),
+      description_en: formData.get("description_en"),
+      description_fr: formData.get("description_fr"),
+      description_ar: formData.get("description_ar"),
       live_link: formData.get("live_link"),
       tags: (formData.get("tags") as string).split(",").map(t => t.trim()),
     };
@@ -158,13 +164,11 @@ export default function AdminProjects() {
 
   const setAsCover = async (imageId: string) => {
     try {
-      // Reset all cover flags for this project
       await supabase
         .from("project_images")
         .update({ is_cover: false })
         .eq("project_id", editingProject.id);
       
-      // Set new cover
       await supabase
         .from("project_images")
         .update({ is_cover: true })
@@ -206,7 +210,7 @@ export default function AdminProjects() {
             <TableBody>
               {projects.map((project) => (
                 <TableRow key={project.id} className="border-white/10">
-                  <TableCell className="font-bold">{project.title}</TableCell>
+                  <TableCell className="font-bold">{project.title_en || project.title}</TableCell>
                   <TableCell className="text-slate-400 font-mono text-xs">{project.slug}</TableCell>
                   <TableCell>
                     <div className="flex gap-1">
@@ -242,11 +246,24 @@ export default function AdminProjects() {
             <DialogTitle>{editingProject ? "Edit Project" : "Create New Project"}</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSaveProject} className="space-y-4 pt-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-400">Title</label>
-                <Input name="title" defaultValue={editingProject?.title} required className="bg-white/5 border-white/10" />
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-slate-400">Title</label>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">EN</span>
+                  <Input name="title_en" defaultValue={editingProject?.title_en || editingProject?.title} required className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">FR</span>
+                  <Input name="title_fr" defaultValue={editingProject?.title_fr || ""} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">AR</span>
+                  <Input name="title_ar" defaultValue={editingProject?.title_ar || ""} dir="rtl" className="bg-white/5 border-white/10 text-right" />
+                </div>
               </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-slate-400">Slug</label>
                 <Input name="slug" defaultValue={editingProject?.slug} required className="bg-white/5 border-white/10" />
@@ -254,7 +271,20 @@ export default function AdminProjects() {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-400">Description</label>
-              <Textarea name="description" defaultValue={editingProject?.description} required className="bg-white/5 border-white/10 min-h-[100px]" />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">EN</span>
+                  <Textarea name="description_en" defaultValue={editingProject?.description_en || editingProject?.description} required className="bg-white/5 border-white/10 min-h-[100px]" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">FR</span>
+                  <Textarea name="description_fr" defaultValue={editingProject?.description_fr || ""} className="bg-white/5 border-white/10 min-h-[100px]" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xs text-slate-500">AR</span>
+                  <Textarea name="description_ar" defaultValue={editingProject?.description_ar || ""} dir="rtl" className="bg-white/5 border-white/10 min-h-[100px] text-right" />
+                </div>
+              </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-400">Tags (comma separated)</label>
@@ -276,7 +306,7 @@ export default function AdminProjects() {
       <Dialog open={isGalleryOpen} onOpenChange={setIsGalleryOpen}>
         <DialogContent className="bg-[#0F172A] border-white/10 text-white max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Project Gallery: {editingProject?.title}</DialogTitle>
+            <DialogTitle>Project Gallery: {editingProject?.title_en || editingProject?.title}</DialogTitle>
           </DialogHeader>
           
           <div className="space-y-8 pt-4">

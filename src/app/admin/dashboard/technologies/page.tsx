@@ -49,8 +49,14 @@ export default function AdminTechnologies() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget as HTMLFormElement);
     const techData = {
-      name: formData.get("name"),
-      category: formData.get("category"),
+      name: formData.get("name_en"),
+      name_en: formData.get("name_en"),
+      name_fr: formData.get("name_fr"),
+      name_ar: formData.get("name_ar"),
+      category: formData.get("category_en"),
+      category_en: formData.get("category_en"),
+      category_fr: formData.get("category_fr"),
+      category_ar: formData.get("category_ar"),
       display_order: parseInt(formData.get("display_order") as string) || 0,
     };
 
@@ -129,13 +135,39 @@ export default function AdminTechnologies() {
             <DialogTitle>{editingTech ? "Edit Technology" : "Add Technology"}</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSave} className="space-y-4 pt-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-400">Name</label>
-              <Input name="name" defaultValue={editingTech?.name} required className="bg-white/5 border-white/10" />
+            <div className="border-t border-white/10 pt-4">
+              <label className="text-sm font-medium text-slate-400 mb-3 block">Name</label>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-500">EN</label>
+                  <Input name="name_en" defaultValue={editingTech?.name_en || editingTech?.name || ''} required className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-500">FR</label>
+                  <Input name="name_fr" defaultValue={editingTech?.name_fr || ''} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-500">AR</label>
+                  <Input name="name_ar" defaultValue={editingTech?.name_ar || ''} dir="rtl" className="bg-white/5 border-white/10 text-right" />
+                </div>
+              </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-400">Category</label>
-              <Input name="category" defaultValue={editingTech?.category} placeholder="Frontend, Backend, etc." className="bg-white/5 border-white/10" />
+            <div className="border-t border-white/10 pt-4">
+              <label className="text-sm font-medium text-slate-400 mb-3 block">Category</label>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-500">EN</label>
+                  <Input name="category_en" defaultValue={editingTech?.category_en || editingTech?.category || ''} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-500">FR</label>
+                  <Input name="category_fr" defaultValue={editingTech?.category_fr || ''} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-500">AR</label>
+                  <Input name="category_ar" defaultValue={editingTech?.category_ar || ''} dir="rtl" className="bg-white/5 border-white/10 text-right" />
+                </div>
+              </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-400">Display Order</label>

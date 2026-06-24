@@ -22,11 +22,23 @@ export const iconMap: Record<string, LucideIcon> = {
 export type Package = {
   id: string;
   title: string;
+  title_en?: string;
+  title_fr?: string;
+  title_ar?: string;
   tagline: string | null;
+  tagline_en?: string | null;
+  tagline_fr?: string | null;
+  tagline_ar?: string | null;
   price: string;
   currency: string;
   features: string[];
+  features_en?: string[];
+  features_fr?: string[];
+  features_ar?: string[];
   freebies: string[];
+  freebies_en?: string[];
+  freebies_fr?: string[];
+  freebies_ar?: string[];
   is_popular: boolean;
   icon_name: string | null;
   order_index: number;
