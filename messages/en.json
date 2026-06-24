@@ -1,0 +1,103 @@
+{
+  "Navbar": {
+    "about": "About",
+    "services": "Services",
+    "packages": "Packages",
+    "projects": "Projects",
+    "process": "Process",
+    "contact": "Contact",
+    "cta": "Let's Talk"
+  },
+  "Hero": {
+    "badge": "Digital Innovation Studio",
+    "heading1": "Transforming Ideas",
+    "heading2": "Into",
+    "heading3": "Exceptional Digital Products",
+    "subtitle": "We craft high-performance digital experiences and scalable platforms that help ambitious brands grow, engage, and lead their markets.",
+    "cta1": "Start Your Project",
+    "cta2": "View Our Work"
+  },
+  "About": {
+    "badge": "The Team",
+    "title": "Meet The",
+    "titleHighlight": "Founders",
+    "subtitle": "The visionaries behind H&M Studio.",
+    "downloadCv": "Download CV"
+  },
+  "Services": {
+    "badge": "Our Expertise",
+    "titlePrefix": "Solutions that",
+    "titleHighlight": "Scale",
+    "description": "We combine strategic thinking with engineering excellence to build digital products that define categories."
+  },
+  "TechStack": {
+    "titlePrefix": "Our",
+    "titleHighlight": "Tech Stack",
+    "description": "Technologies we use to build premium digital experiences."
+  },
+  "Packages": {
+    "badge": "Our Packages",
+    "titlePrefix": "Packages built to",
+    "titleHighlight": "scale",
+    "description": "Every offering is crafted to deliver measurable results — pick the one that fits your vision and budget.",
+    "mostPopular": "Most Popular",
+    "includedForFree": "Included for Free",
+    "free": "FREE",
+    "orderViaWhatsApp": "Order via WhatsApp",
+    "loading": "Loading amazing packages..."
+  },
+  "Portfolio": {
+    "badge": "Our Portfolio",
+    "titlePrefix": "Digital products that",
+    "titleHighlight": "define industries.",
+    "description": "A curated selection of our latest work, blending cutting-edge technology with world-class design.",
+    "visitSite": "Visit Site",
+    "backToPortfolio": "Back to Portfolio"
+  },
+  "Process": {
+    "badge": "Our Methodology",
+    "titlePrefix": "How We",
+    "titleHighlight": "Create",
+    "description": "A meticulous, battle-tested approach to delivering excellence at every stage of the lifecycle."
+  },
+  "Contact": {
+    "badge": "Get In Touch",
+    "titlePrefix": "Let's build something",
+    "titleSuffix": "together.",
+    "titleHighlight": "Extraordinary",
+    "description": "Have a category-defining project in mind? We're ready to engineer your vision into a digital masterpiece.",
+    "fullName": "Full Name",
+    "emailAddress": "Email Address",
+    "projectSubject": "Project Subject",
+    "projectDetails": "Project Details",
+    "namePlaceholder": "e.g. Hecham M.",
+    "emailPlaceholder": "hello@example.com",
+    "subjectPlaceholder": "What are we building?",
+    "detailsPlaceholder": "Tell us about your vision...",
+    "submitButton": "Initiate Connection",
+    "successTitle": "Message Transmitted!",
+    "successMessage": "Our team has received your inquiry. Expect a strategic response within 24 hours.",
+    "sendAnother": "Send Another Message",
+    "nameError": "Name must be at least 2 characters.",
+    "emailError": "Invalid email address.",
+    "subjectError": "Subject must be at least 5 characters.",
+    "messageError": "Message must be at least 10 characters.",
+    "successToast": "Message sent successfully!",
+    "errorToast": "Failed to send message. Please try again.",
+    "emailUs": "hello@hmstudio.com"
+  },
+  "Footer": {
+    "description": "World-class digital agency specializing in premium web and mobile experiences. Transforming ideas into exceptional digital products.",
+    "quickLinks": "Quick Links",
+    "aboutUs": "About Us",
+    "services": "Services",
+    "packages": "Packages",
+    "projects": "Projects",
+    "process": "Process",
+    "contact": "Contact",
+    "connect": "Connect",
+    "copyright": "H&M Studio. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  }
+}

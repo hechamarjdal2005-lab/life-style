@@ -6,6 +6,8 @@ import { Check, Gift, Code2, Globe, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { iconMap, type Package } from "@/lib/packages";
 import { createClient } from "@/lib/supabase/client";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useSectionContent } from "@/hooks/useSectionContent";
 
 const sectionVariants = {
   hidden: { opacity: 0 },
@@ -26,6 +28,8 @@ const headerVariants = {
 };
 
 export function Packages() {
+  const { language } = useLanguage();
+  const { t } = useSectionContent("packages");
   const reduced = useReducedMotion();
   const [packages, setPackages] = useState<Package[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,12 +60,10 @@ export function Packages() {
       id="packages"
       className="py-24 md:py-32 bg-[#0F172A] relative overflow-hidden"
     >
-      {/* Background glows */}
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-blue-600/5 blur-[130px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-indigo-600/5 blur-[130px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Section header */}
         <motion.div
           variants={sectionVariants}
           initial={reduced ? false : "hidden"}
@@ -71,30 +73,28 @@ export function Packages() {
         >
           <motion.div variants={headerVariants}>
             <span className="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-6">
-              Our Packages
+              {t("badge")}
             </span>
           </motion.div>
           <motion.h2
             variants={headerVariants}
             className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight"
           >
-            Packages built to{" "}
-            <span className="text-blue-500">scale</span>
+            {t("titlePrefix")}{" "}
+            <span className="text-blue-500">{t("titleHighlight")}</span>
           </motion.h2>
           <motion.p
             variants={headerVariants}
             className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
           >
-            Every offering is crafted to deliver measurable results — pick the
-            one that fits your vision and budget.
+            {t("description")}
           </motion.p>
         </motion.div>
 
-        {/* Mobile swipe row */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <Loader2 className="w-10 h-10 text-blue-500 animate-spin" />
-            <p className="text-slate-400 animate-pulse">Loading amazing packages...</p>
+            <p className="text-slate-400 animate-pulse">{t("loading")}</p>
           </div>
         ) : (
           <>
@@ -151,6 +151,8 @@ function PackCard({
   reduced: boolean;
   mobile?: boolean;
 }) {
+  const { language } = useLanguage();
+  const { t } = useSectionContent("packages");
   const containerRef = useRef<HTMLDivElement>(null);
   const spotRef = useRef<HTMLDivElement>(null);
   const ticking = useRef(false);
@@ -200,28 +202,23 @@ function PackCard({
           "border-blue-500/40 shadow-[0_0_0_1px_rgba(59,130,246,0.14),0_0_40px_rgba(59,130,246,0.10)]"
       )}
     >
-      {/* Cursor spotlight */}
       <div
         ref={spotRef}
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
       />
 
-      {/* Top edge highlight */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-      {/* Most Popular badge */}
       {pack.is_popular && (
         <div className="absolute top-4 right-4 z-10">
           <span className="px-3 py-1 rounded-full bg-blue-500 text-white text-[10px] font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(59,130,246,0.4)]">
-            Most Popular
+            {t("mostPopular")}
           </span>
         </div>
       )}
 
-      {/* Card body */}
       <div className="relative z-10 flex flex-col h-full p-5 pb-8 md:p-7">
-        {/* Icon */}
         <div
           className={cn(
             "inline-flex items-center justify-center w-12 h-12 rounded-xl mb-5 transition-transform duration-300 group-hover:scale-110",
@@ -234,7 +231,6 @@ function PackCard({
           <Icon size={22} strokeWidth={1.75} aria-hidden="true" />
         </div>
 
-        {/* Title & tagline */}
         <h3 className={cn(
           "text-xl font-bold text-white mb-1 tracking-tight group-hover:text-blue-300 transition-colors duration-300",
           mobile ? "min-h-[3.5rem]" : ""
@@ -250,12 +246,10 @@ function PackCard({
           </p>
         )}
 
-        {/* Price */}
         <p className="text-2xl font-black text-blue-400 mb-5 tracking-tight">
           {pack.price}
         </p>
 
-        {/* Features */}
         <ul
           className={cn(
             "space-y-2.5 mb-5",
@@ -282,12 +276,11 @@ function PackCard({
           ))}
         </ul>
 
-        {/* Freebies block */}
         {pack.freebies && pack.freebies.length > 0 && (
           <div className={cn("flex-1 mb-5", mobile ? "min-h-0" : "")}>
             <div className="border-t border-white/[0.06] pt-4 mb-3">
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">
-                Included for Free
+                {t("includedForFree")}
               </p>
             </div>
             <div
@@ -308,7 +301,7 @@ function PackCard({
                     {freebie}
                   </span>
                   <span className="flex-shrink-0 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full bg-emerald-500/15 border border-emerald-500/25 text-emerald-400">
-                    FREE
+                    {t("free")}
                   </span>
                 </div>
               ))}
@@ -316,7 +309,6 @@ function PackCard({
           </div>
         )}
 
-        {/* WhatsApp CTA */}
         <div className="border-t border-white/[0.06] pt-5 mt-6 md:mt-auto">
           <a
             href={whatsappHref}
@@ -338,7 +330,7 @@ function PackCard({
                 aria-hidden="true"
               />
             </span>
-            Order via WhatsApp
+            {t("orderViaWhatsApp")}
           </a>
         </div>
       </div>

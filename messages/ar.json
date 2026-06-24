@@ -1,0 +1,103 @@
+{
+  "Navbar": {
+    "about": "من نحن",
+    "services": "الخدمات",
+    "packages": "الباقات",
+    "projects": "المشاريع",
+    "process": "المنهجية",
+    "contact": "اتصل بنا",
+    "cta": "لنتحدث"
+  },
+  "Hero": {
+    "badge": "استوديو الابتكار الرقمي",
+    "heading1": "نحول الأفكار",
+    "heading2": "إلى",
+    "heading3": "منتجات رقمية استثنائية",
+    "subtitle": "نصنع تجارب رقمية عالية الأداء ومنصات قابلة للتطوير تساعد العلامات التجارية الطموحة على النمو والتفاعل وقيادة أسواقها.",
+    "cta1": "ابدأ مشروعك",
+    "cta2": "شاهد أعمالنا"
+  },
+  "About": {
+    "badge": "الفريق",
+    "title": "تعرف على",
+    "titleHighlight": "المؤسسين",
+    "subtitle": "أصحاب الرؤية وراء H&M Studio.",
+    "downloadCv": "تحميل السيرة الذاتية"
+  },
+  "Services": {
+    "badge": "خبرتنا",
+    "titlePrefix": "حلول",
+    "titleHighlight": "تتوسع",
+    "description": "نجمع بين التفكير الاستراتيجي والتميز الهندسي لبناء منتجات رقمية تعيد تعريف الفئات."
+  },
+  "TechStack": {
+    "titlePrefix": "تقنياتنا",
+    "titleHighlight": "التقنية",
+    "description": "التقنيات التي نستخدمها لبناء تجارب رقمية متميزة."
+  },
+  "Packages": {
+    "badge": "باقاتنا",
+    "titlePrefix": "باقات مصممة لـ",
+    "titleHighlight": "النمو",
+    "description": "كل عرض مصمم لتحقيق نتائج قابلة للقياس — اختر ما يناسب رؤيتك وميزانيتك.",
+    "mostPopular": "الأكثر طلباً",
+    "includedForFree": "مشمول مجاناً",
+    "free": "مجاناً",
+    "orderViaWhatsApp": "اطلب عبر واتساب",
+    "loading": "جاري تحميل الباقات..."
+  },
+  "Portfolio": {
+    "badge": "أعمالنا",
+    "titlePrefix": "منتجات رقمية",
+    "titleHighlight": "تعيد تعريف الصناعات.",
+    "description": "مجموعة منتقاة من أحدث أعمالنا، تمزج بين التكنولوجيا المتطورة والتصميم العالمي المستوى.",
+    "visitSite": "زيارة الموقع",
+    "backToPortfolio": "العودة إلى الأعمال"
+  },
+  "Process": {
+    "badge": "منهجيتنا",
+    "titlePrefix": "كيف",
+    "titleHighlight": "نبدع",
+    "description": "نهج دقيق ومجرب لتقديم التميز في كل مرحلة من مراحل دورة الحياة."
+  },
+  "Contact": {
+    "badge": "تواصل معنا",
+    "titlePrefix": "لنبني شيئاً",
+    "titleSuffix": "معاً.",
+    "titleHighlight": "استثنائياً",
+    "description": "هل لديك مشروع يمكنه إعادة تعريف فئة؟ نحن مستعدون لتحويل رؤيتك إلى تحفة رقمية.",
+    "fullName": "الاسم الكامل",
+    "emailAddress": "البريد الإلكتروني",
+    "projectSubject": "موضوع المشروع",
+    "projectDetails": "تفاصيل المشروع",
+    "namePlaceholder": "مثال: هشام م.",
+    "emailPlaceholder": "bonjour@example.com",
+    "subjectPlaceholder": "ماذا نبني؟",
+    "detailsPlaceholder": "أخبرنا عن رؤيتك...",
+    "submitButton": "بدء التواصل",
+    "successTitle": "تم إرسال الرسالة!",
+    "successMessage": "لقد استلم فريقنا استفسارك. توقع رداً استراتيجياً خلال 24 ساعة.",
+    "sendAnother": "إرسال رسالة أخرى",
+    "nameError": "يجب أن يحتوي الاسم على حرفين على الأقل.",
+    "emailError": "بريد إلكتروني غير صالح.",
+    "subjectError": "يجب أن يحتوي الموضوع على 5 أحرف على الأقل.",
+    "messageError": "يجب أن تحتوي الرسالة على 10 أحرف على الأقل.",
+    "successToast": "تم إرسال الرسالة بنجاح!",
+    "errorToast": "فشل إرسال الرسالة. حاول مرة أخرى.",
+    "emailUs": "hello@hmstudio.com"
+  },
+  "Footer": {
+    "description": "وكالة رقمية عالمية متخصصة في التجارب الرقمية المتميزة للويب والجوال. نحول الأفكار إلى منتجات رقمية استثنائية.",
+    "quickLinks": "روابط سريعة",
+    "aboutUs": "من نحن",
+    "services": "الخدمات",
+    "packages": "الباقات",
+    "projects": "المشاريع",
+    "process": "المنهجية",
+    "contact": "اتصل بنا",
+    "connect": "تواصل",
+    "copyright": "H&M Studio. جميع الحقوق محفوظة.",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsOfService": "شروط الخدمة"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "Navbar": {
+    "about": "À propos",
+    "services": "Services",
+    "packages": "Packages",
+    "projects": "Projets",
+    "process": "Processus",
+    "contact": "Contact",
+    "cta": "Parlons-en"
+  },
+  "Hero": {
+    "badge": "Studio d'Innovation Digitale",
+    "heading1": "Transformer des Idées",
+    "heading2": "En",
+    "heading3": "Produits Numériques Exceptionnels",
+    "subtitle": "Nous créons des expériences numériques haute performance et des plateformes évolutives qui aident les marques ambitieuses à grandir, à engager et à dominer leurs marchés.",
+    "cta1": "Lancez Votre Projet",
+    "cta2": "Voir Notre Travail"
+  },
+  "About": {
+    "badge": "L'Équipe",
+    "title": "Rencontrez les",
+    "titleHighlight": "Fondateurs",
+    "subtitle": "Les visionnaires derrière H&M Studio.",
+    "downloadCv": "Télécharger CV"
+  },
+  "Services": {
+    "badge": "Notre Expertise",
+    "titlePrefix": "Des solutions qui",
+    "titleHighlight": "Évoluent",
+    "description": "Nous combinons réflexion stratégique et excellence technique pour créer des produits numériques qui redéfinissent les catégories."
+  },
+  "TechStack": {
+    "titlePrefix": "Notre",
+    "titleHighlight": "Stack Technique",
+    "description": "Les technologies que nous utilisons pour créer des expériences numériques premium."
+  },
+  "Packages": {
+    "badge": "Nos Packages",
+    "titlePrefix": "Des packages conçus pour",
+    "titleHighlight": "grandir",
+    "description": "Chaque offre est conçue pour offrir des résultats mesurables — choisissez celle qui correspond à votre vision et à votre budget.",
+    "mostPopular": "Le Plus Populaire",
+    "includedForFree": "Inclus Gratuitement",
+    "free": "GRATUIT",
+    "orderViaWhatsApp": "Commander via WhatsApp",
+    "loading": "Chargement des packages..."
+  },
+  "Portfolio": {
+    "badge": "Notre Portfolio",
+    "titlePrefix": "Des produits numériques qui",
+    "titleHighlight": "définissent les industries.",
+    "description": "Une sélection curated de nos derniers travaux, alliant technologie de pointe et design de classe mondiale.",
+    "visitSite": "Visiter le Site",
+    "backToPortfolio": "Retour au Portfolio"
+  },
+  "Process": {
+    "badge": "Notre Méthodologie",
+    "titlePrefix": "Comment Nous",
+    "titleHighlight": "Créons",
+    "description": "Une approche méticuleuse et éprouvée pour offrir l'excellence à chaque étape du cycle de vie."
+  },
+  "Contact": {
+    "badge": "Contactez-Nous",
+    "titlePrefix": "Construisons quelque chose",
+    "titleSuffix": "ensemble.",
+    "titleHighlight": "d'Extraordinaire",
+    "description": "Vous avez un projet qui va définir une catégorie ? Nous sommes prêts à transformer votre vision en un chef-d'œuvre numérique.",
+    "fullName": "Nom Complet",
+    "emailAddress": "Adresse Email",
+    "projectSubject": "Sujet du Projet",
+    "projectDetails": "Détails du Projet",
+    "namePlaceholder": "ex. Hecham M.",
+    "emailPlaceholder": "bonjour@example.com",
+    "subjectPlaceholder": "Que construisons-nous ?",
+    "detailsPlaceholder": "Parlez-nous de votre vision...",
+    "submitButton": "Lancer la Connexion",
+    "successTitle": "Message Transmis !",
+    "successMessage": "Notre équipe a bien reçu votre demande. Attendez-vous à une réponse stratégique sous 24 heures.",
+    "sendAnother": "Envoyer un Autre Message",
+    "nameError": "Le nom doit contenir au moins 2 caractères.",
+    "emailError": "Adresse email invalide.",
+    "subjectError": "Le sujet doit contenir au moins 5 caractères.",
+    "messageError": "Le message doit contenir au moins 10 caractères.",
+    "successToast": "Message envoyé avec succès !",
+    "errorToast": "Échec de l'envoi du message. Veuillez réessayer.",
+    "emailUs": "hello@hmstudio.com"
+  },
+  "Footer": {
+    "description": "Agence digitale de classe mondiale spécialisée dans les expériences web et mobile premium. Transformer des idées en produits numériques exceptionnels.",
+    "quickLinks": "Liens Rapides",
+    "aboutUs": "À propos",
+    "services": "Services",
+    "packages": "Packages",
+    "projects": "Projets",
+    "process": "Processus",
+    "contact": "Contact",
+    "connect": "Réseaux",
+    "copyright": "H&M Studio. Tous droits réservés.",
+    "privacyPolicy": "Politique de Confidentialité",
+    "termsOfService": "Conditions d'Utilisation"
+  }
+}

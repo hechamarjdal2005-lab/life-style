@@ -3,12 +3,20 @@
 import { motion, useScroll, useSpring, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useSectionContent } from "@/hooks/useSectionContent";
 
 interface ProcessStep {
   id: string;
   step_number: string;
   title: string;
+  title_en?: string;
+  title_fr?: string;
+  title_ar?: string;
   description: string;
+  description_en?: string;
+  description_fr?: string;
+  description_ar?: string;
 }
 
 interface ProcessProps {
@@ -16,6 +24,8 @@ interface ProcessProps {
 }
 
 export function Process({ data }: ProcessProps) {
+  const { language } = useLanguage();
+  const { t } = useSectionContent("process");
   const reduced = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -30,9 +40,14 @@ export function Process({ data }: ProcessProps) {
     restDelta: 0.001
   });
 
+  const localized = data.map((step) => ({
+    ...step,
+    title: step[`title_${language}` as keyof ProcessStep] || step.title,
+    description: step[`description_${language}` as keyof ProcessStep] || step.description,
+  }));
+
   return (
     <section id="process" ref={containerRef} className="py-20 md:py-32 bg-[#0F172A] relative overflow-hidden">
-      {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-600/5 blur-[120px] rounded-full" />
       </div>
@@ -46,7 +61,7 @@ export function Process({ data }: ProcessProps) {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest"
           >
-            Our Methodology
+            {t("badge")}
           </motion.div>
           <motion.h2
             initial={reduced ? false : { opacity: 0, y: 20 }}
@@ -55,7 +70,7 @@ export function Process({ data }: ProcessProps) {
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.08 }}
             className="text-3xl md:text-6xl font-bold text-white mb-6 md:mb-8 tracking-tight"
           >
-            How We <span className="text-blue-500">Create</span>
+            {t("titlePrefix")} <span className="text-blue-500">{t("titleHighlight")}</span>
           </motion.h2>
           <motion.p
             initial={reduced ? false : { opacity: 0, y: 20 }}
@@ -64,27 +79,24 @@ export function Process({ data }: ProcessProps) {
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.16 }}
             className="text-slate-400 text-base md:text-xl max-w-2xl mx-auto leading-relaxed"
           >
-            A meticulous, battle-tested approach to delivering excellence at every stage of the lifecycle.
+            {t("description")}
           </motion.p>
         </div>
 
         <div className="relative max-w-5xl mx-auto">
-          {/* Vertical Timeline Line */}
           <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-white/10 -translate-x-1/2" />
           
-          {/* Glowing Progress Line */}
           <motion.div 
             style={{ scaleY }}
             className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-blue-500 via-blue-400 to-indigo-500 -translate-x-1/2 origin-top shadow-[0_0_15px_rgba(59,130,246,0.5)]"
           />
 
           <div className="space-y-16 md:space-y-32">
-            {data.map((step, i) => {
+            {localized.map((step, i) => {
               const isEven = i % 2 === 0;
               
               return (
                 <div key={step.id} className="relative">
-                  {/* Timeline Dot */}
                   <div className="absolute left-4 md:left-1/2 top-0 -translate-x-1/2 z-20">
                     <motion.div
                       initial={reduced ? false : { scale: 0, opacity: 0 }}
@@ -100,7 +112,6 @@ export function Process({ data }: ProcessProps) {
                     "flex flex-col md:flex-row items-start md:items-center w-full",
                     isEven ? "md:flex-row-reverse" : ""
                   )}>
-                    {/* Content Card */}
                     <div className={cn(
                       "w-full md:w-[45%] pl-12 md:pl-0 group",
                       isEven ? "md:pl-12" : "md:pr-12 md:text-right"
@@ -127,7 +138,6 @@ export function Process({ data }: ProcessProps) {
                       </motion.div>
                     </div>
 
-                    {/* Spacer for the other side */}
                     <div className="hidden md:block md:w-[45%]" />
                   </div>
                 </div>

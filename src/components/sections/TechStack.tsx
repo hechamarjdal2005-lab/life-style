@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useSectionContent } from "@/hooks/useSectionContent";
 
 interface TechItem {
   id: string;
@@ -15,20 +16,18 @@ interface TechStackProps {
 }
 
 export function TechStack({ data }: TechStackProps) {
-  // Filter only active technologies and ensure uniqueness by name
+  const { t } = useSectionContent("techstack");
+
   const activeTech = Array.from(
     new Map(data.filter(tech => tech.is_active).map(item => [item.name, item])).values()
   );
 
   if (activeTech.length === 0) return null;
 
-  // Duplicate items twice (3 sets total) to ensure there's enough content to scroll seamlessly
-  // even on very wide screens. The animation moves -50% of the total width.
   const displayItems = [...activeTech, ...activeTech];
 
   return (
     <section id="tech-stack" className="py-24 md:py-32 bg-[#0F172A] relative overflow-hidden">
-      {/* Background Decorative Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-blue-600/5 blur-[120px] rounded-full" />
       </div>
@@ -42,7 +41,7 @@ export function TechStack({ data }: TechStackProps) {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight"
           >
-            Our <span className="text-blue-500">Tech Stack</span>
+            {t("titlePrefix")} <span className="text-blue-500">{t("titleHighlight")}</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -51,17 +50,14 @@ export function TechStack({ data }: TechStackProps) {
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
             className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto"
           >
-            Technologies we use to build premium digital experiences.
+            {t("description")}
           </motion.p>
         </div>
 
-        {/* Infinite Marquee Container */}
         <div className="relative mt-20 w-full overflow-hidden">
-          {/* Gradient Masks for Fading Edges */}
           <div className="absolute left-0 top-0 bottom-0 w-32 md:w-64 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/80 to-transparent z-20 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-32 md:w-64 bg-gradient-to-l from-[#0F172A] via-[#0F172A]/80 to-transparent z-20 pointer-events-none" />
 
-          {/* Scrolling Row */}
           <div className="flex w-max animate-marquee whitespace-nowrap gap-12 md:gap-16 py-4 hover:[animation-play-state:paused]">
             {displayItems.map((item, idx) => (
               <TechCard key={`${item.id}-${idx}`} tech={item} />

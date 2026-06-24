@@ -16,7 +16,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { cn } from "@/lib/utils";
+import { useSectionContent } from "@/hooks/useSectionContent";
 
 interface ProjectImage {
   id: string;
@@ -52,17 +52,16 @@ const cardVariants = {
 };
 
 export function Portfolio({ data }: PortfolioProps) {
+  const { t } = useSectionContent("portfolio");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const reduced = useReducedMotion();
 
   return (
     <section id="portfolio" className="py-24 md:py-32 bg-[#0F172A] relative overflow-hidden">
-      {/* Background glows */}
       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none -translate-x-1/2" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-600/5 blur-[120px] rounded-full pointer-events-none translate-x-1/2" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Section Header */}
         <motion.div
           variants={sectionVariants}
           initial={reduced ? false : "hidden"}
@@ -74,24 +73,23 @@ export function Portfolio({ data }: PortfolioProps) {
             variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } } }}
             className="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest"
           >
-            Our Portfolio
+            {t("badge")}
           </motion.div>
           <motion.h2
             variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const, delay: 0.08 } } }}
             className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight"
           >
-            Digital products that <br className="hidden sm:block" />
-            <span className="text-blue-500">define industries.</span>
+            {t("titlePrefix")} <br className="hidden sm:block" />
+            <span className="text-blue-500">{t("titleHighlight")}</span>
           </motion.h2>
           <motion.p
             variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const, delay: 0.16 } } }}
             className="text-slate-400 text-lg md:text-xl leading-relaxed"
           >
-            A curated selection of our latest work, blending cutting-edge technology with world-class design.
+            {t("description")}
           </motion.p>
         </motion.div>
 
-        {/* Uniform 3-column grid */}
         <motion.div
           variants={sectionVariants}
           initial={reduced ? false : "hidden"}
@@ -113,20 +111,16 @@ export function Portfolio({ data }: PortfolioProps) {
                 onClick={() => setSelectedProject(project)}
                 className="group relative rounded-[2.5rem] overflow-hidden border border-white/[0.08] bg-slate-900 cursor-pointer aspect-[4/3] md:aspect-video"
               >
-                {/* Image */}
                 <img
                   src={coverImage?.image_url || "/placeholder.jpg"}
                   alt={coverImage?.alt_text || project.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-[#0F172A]/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
-                {/* Content overlay */}
                 <div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-end translate-y-3 group-hover:translate-y-0 transition-transform duration-500">
                   <div className="space-y-2.5">
-                    {/* Tags — appear on hover */}
                     <div className="flex flex-wrap gap-1.5 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 delay-75">
                       {project.tags.slice(0, 3).map((tag) => (
                         <Badge
@@ -138,19 +132,16 @@ export function Portfolio({ data }: PortfolioProps) {
                       ))}
                     </div>
 
-                    {/* Title */}
                     <h3 className="text-xl font-bold text-white transition-colors duration-400 group-hover:text-blue-400">
                       {project.title}
                     </h3>
 
-                    {/* Description — appear on hover */}
                     <p className="text-slate-300 text-sm line-clamp-2 opacity-0 group-hover:opacity-100 transition-all duration-400 delay-100">
                       {project.description}
                     </p>
                   </div>
                 </div>
 
-                {/* Arrow badge */}
                 <div className="absolute top-5 right-5 p-2.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-400">
                   <ArrowUpRight size={18} aria-hidden="true" />
                 </div>
@@ -160,12 +151,10 @@ export function Portfolio({ data }: PortfolioProps) {
         </motion.div>
       </div>
 
-      {/* Gallery Modal — Enhanced design */}
       <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
         <DialogContent className="max-w-[95%] sm:max-w-2xl lg:max-w-5xl xl:max-w-6xl bg-[#0F172A] border-white/10 p-0 overflow-hidden outline-none rounded-[2rem] shadow-2xl">
           {selectedProject && (
             <div className="flex flex-col lg:flex-row h-full max-h-[90vh] lg:max-h-[85vh]">
-              {/* Left: Gallery */}
               <div className="flex-1 bg-black/40 flex items-center justify-center p-4 sm:p-8 lg:p-12 relative overflow-hidden min-h-[300px] lg:min-h-0">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-600/10 blur-[100px] rounded-full pointer-events-none" />
 
@@ -188,9 +177,7 @@ export function Portfolio({ data }: PortfolioProps) {
                 </Carousel>
               </div>
 
-              {/* Right: Info */}
               <div className="w-full lg:w-[400px] xl:w-[450px] border-t lg:border-t-0 lg:border-l border-white/10 flex flex-col bg-[#0F172A] relative overflow-hidden">
-                {/* Scrollable Content Area */}
                 <div className="flex-1 overflow-y-auto p-6 sm:p-8 lg:p-10 custom-scrollbar">
                   <div className="flex items-center justify-between mb-8">
                     <button
@@ -207,7 +194,7 @@ export function Portfolio({ data }: PortfolioProps) {
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 font-bold text-sm ml-auto"
                       >
-                        Visit Site <ExternalLink size={16} />
+                        {t("visitSite")} <ExternalLink size={16} />
                       </a>
                     )}
                   </div>
@@ -234,13 +221,12 @@ export function Portfolio({ data }: PortfolioProps) {
                   </p>
                 </div>
 
-                {/* Fixed Footer with Back Button */}
                 <div className="p-6 bg-[#0F172A]/80 backdrop-blur-md border-t border-white/5">
                   <Button
                     className="w-full bg-white text-black hover:bg-slate-200 h-14 rounded-xl font-bold text-base transition-all active:scale-[0.98] shadow-xl"
                     onClick={() => setSelectedProject(null)}
                   >
-                    Back to Portfolio
+                    {t("backToPortfolio")}
                   </Button>
                 </div>
               </div>

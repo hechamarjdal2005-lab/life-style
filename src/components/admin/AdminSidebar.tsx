@@ -13,6 +13,7 @@ import {
   UserRound,
   LogOut,
   Layers,
+  Languages,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
@@ -26,6 +27,7 @@ const menuItems = [
   { name: "Tech Stack", href: "/admin/dashboard/tech-stack", icon: Wrench },
   { name: "Process", href: "/admin/dashboard/process", icon: Layers },
   { name: "Packages", href: "/admin/dashboard/packages", icon: Briefcase },
+  { name: "Translations", href: "/admin/dashboard/translations", icon: Languages },
   { name: "Messages", href: "/admin/dashboard/messages", icon: MessageSquare },
   { name: "Founders", href: "/admin/dashboard/founders", icon: UserRound },
   { name: "Team", href: "/admin/dashboard/team", icon: Users },

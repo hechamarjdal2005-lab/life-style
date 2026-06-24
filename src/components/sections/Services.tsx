@@ -4,11 +4,19 @@ import { useRef, useCallback } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import * as LucideIcons from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useSectionContent } from "@/hooks/useSectionContent";
 
 interface Service {
   id: string;
   title: string;
+  title_en?: string;
+  title_fr?: string;
+  title_ar?: string;
   description: string;
+  description_en?: string;
+  description_fr?: string;
+  description_ar?: string;
   icon: string;
 }
 
@@ -35,6 +43,8 @@ const headerVariants = {
 };
 
 export function Services({ data }: ServicesProps) {
+  const { language } = useLanguage();
+  const { t } = useSectionContent("services");
   const reduced = useReducedMotion();
   const marqueeData = [...data, ...data];
 
@@ -52,13 +62,18 @@ export function Services({ data }: ServicesProps) {
     }
   };
 
+  const localized = data.map((s) => ({
+    ...s,
+    title: s[`title_${language}` as keyof Service] || s.title,
+    description: s[`description_${language}` as keyof Service] || s.description,
+  }));
+
   return (
     <section id="services" className="py-24 md:py-32 bg-[#0F172A] relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-indigo-600/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Header */}
         <motion.div
           variants={sectionVariants}
           initial={reduced ? false : "hidden"}
@@ -68,24 +83,23 @@ export function Services({ data }: ServicesProps) {
         >
           <motion.div variants={headerVariants}>
             <span className="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest">
-              Our Expertise
+              {t("badge")}
             </span>
           </motion.div>
           <motion.h2
             variants={headerVariants}
             className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight"
           >
-            Solutions that <span className="text-blue-500">Scale</span>
+            {t("titlePrefix")} <span className="text-blue-500">{t("titleHighlight")}</span>
           </motion.h2>
           <motion.p
             variants={headerVariants}
             className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
           >
-            We combine strategic thinking with engineering excellence to build digital products that define categories.
+            {t("description")}
           </motion.p>
         </motion.div>
 
-        {/* Mobile Marquee */}
         <div className="md:hidden w-full overflow-hidden">
           <div
             className={cn(
@@ -102,7 +116,11 @@ export function Services({ data }: ServicesProps) {
               return (
                 <div key={`${service.id}-${i}`} className="mx-3 w-72 shrink-0">
                   <ServiceCard
-                    service={service}
+                    service={{
+                      ...service,
+                      title: localized[i % data.length].title,
+                      description: localized[i % data.length].description,
+                    }}
                     isFeatured={isFeatured}
                     IconComponent={IconComponent}
                     reduced={!!reduced}
@@ -114,7 +132,6 @@ export function Services({ data }: ServicesProps) {
           </div>
         </div>
 
-        {/* Bento Grid */}
         <motion.div
           variants={sectionVariants}
           initial={reduced ? false : "hidden"}
@@ -122,7 +139,7 @@ export function Services({ data }: ServicesProps) {
           viewport={{ once: true, margin: "-100px" }}
           className="hidden md:grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-min md:auto-rows-[200px]"
         >
-          {data.map((service, i) => {
+          {localized.map((service, i) => {
             const IconComponent =
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               (LucideIcons as any)[service.icon] ?? LucideIcons.Code;
@@ -204,17 +221,12 @@ function ServiceCard({
         !isFeatured ? "bg-white/[0.02]" : ""
       )}
     >
-      {/* Cursor spotlight */}
       <div
         ref={spotRef}
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0"
       />
-
-      {/* Top edge highlight */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
-
-      {/* Hover gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
       {isFeatured && (
